@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:FoodOrderGuiClient.Models"
+        x:Class="FoodOrderGuiClient.MainWindow"
+        Title="Food Order Client" Width="600" Height="450">
+    <StackPanel Margin="10" Spacing="10">
+        <Button Name="LoadButton" Content="Завантажити список ресторанів" Click="LoadButton_Click"/>
+        <TextBlock Name="StatusText" Text="Статус: Очікування..." FontWeight="Bold" Foreground="Blue"/>
+
+        <Grid ColumnDefinitions="*,*">
+            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                <TextBlock Text="Ресторани:" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox Name="RestaurantsList" SelectionChanged="RestaurantsList_SelectionChanged" Height="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:RestaurantItem">
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                <TextBlock Text="Меню (натисніть для замовлення):" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox Name="MenuList" SelectionChanged="MenuList_SelectionChanged" Height="300"/>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Window>
