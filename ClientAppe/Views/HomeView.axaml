@@ -1,0 +1,154 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClientAppe.ViewModels"
+             x:Class="ClientAppe.Views.HomeView"
+             x:DataType="vm:HomeViewModel">
+
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="RestaurantGrad" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#FF8C42"/>
+            <GradientStop Offset="1" Color="#FF5733"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="FastFoodGrad" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#FFD93D"/>
+            <GradientStop Offset="1" Color="#FF8C42"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="OtherGrad" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Offset="0" Color="#B197FC"/>
+            <GradientStop Offset="1" Color="#E599F7"/>
+        </LinearGradientBrush>
+    </UserControl.Resources>
+
+    <DockPanel Background="#F7F9FC">
+        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+                    </Border>
+                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                </StackPanel>
+
+<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
+    <Button Classes="nav" Content="Головна" Background="#EEF2FF" Foreground="#5849E8"/>
+    <Button Classes="nav" Content="Профіль" 
+            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+    <Button Classes="nav" Content="Замовлення" 
+            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+    
+    <Panel Cursor="Hand" Margin="10,0,0,0">
+        <PathIcon Data="{StaticResource cart_regular}" Width="22" Height="22" Foreground="#1A1A1A"/>
+        
+        <Border Background="#5849E8" CornerRadius="8" Width="16" Height="16" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="12,-5,-5,0"
+                IsVisible="False"> <TextBlock Text="0" Foreground="White" FontSize="10" FontWeight="Bold" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </Panel>
+</StackPanel>
+            </Grid>
+        </Border>
+
+        <ScrollViewer>
+            <StackPanel Margin="40" Spacing="50">
+                <TextBlock Text="Оберіть категорію закладу" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#1E293B"/>
+
+                <UniformGrid Columns="3" HorizontalAlignment="Center" MaxWidth="1100">
+                    <Border Classes="cardHolder" Background="{StaticResource RestaurantGrad}">
+                        <Button Classes="categoryCard" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}">
+                            <StackPanel Spacing="20">
+                                <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF" HorizontalAlignment="Center">
+                                    <TextBlock Text="🍴" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0"/> 
+                                </Border>
+                                <TextBlock Text="Ресторан" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                    <Border Classes="cardHolder" Background="{StaticResource FastFoodGrad}">
+                        <Button Classes="categoryCard">
+                            <StackPanel Spacing="20">
+                                <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF" HorizontalAlignment="Center">
+                                    <TextBlock Text="🍔" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                </Border>
+                                <TextBlock Text="Фаст-фуд" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                    <Border Classes="cardHolder" Background="{StaticResource OtherGrad}">
+                        <Button Classes="categoryCard">
+                            <StackPanel Spacing="20">
+                                <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF" HorizontalAlignment="Center">
+                                    <TextBlock Text="✨" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                </Border>
+                                <TextBlock Text="Інше" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                </UniformGrid>
+
+                <StackPanel MaxWidth="900" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,15">
+                        <PathIcon Data="{StaticResource location_regular}" Foreground="#5849E8" Width="18"/>
+                        <TextBlock Text="Адреса доставки" FontWeight="SemiBold" Foreground="#4A5568"/>
+                    </StackPanel>
+                    
+                    <Border Background="White" CornerRadius="30" Padding="40" BoxShadow="0 10 30 0 #10000000">
+                        <StackPanel Spacing="25">
+                            <Grid>
+                                <TextBox Text="{Binding DeliveryAddress}" Watermark="м. Київ, вул. Хрещатик, 1"
+                                         Height="60" CornerRadius="15" Padding="50,0,15,0"
+                                         VerticalContentAlignment="Center" Background="#F8FAFC" 
+                                         BorderThickness="0" Foreground="#1A1A1A"/>
+                                <PathIcon Data="{StaticResource location_regular}" Foreground="#94A3B8" Width="18" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                            </Grid>
+
+                            <Button Content="Вибрати на карті" Classes="primaryBtn"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+    <UserControl.Styles>
+        <Style Selector="Button.nav">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#64748B"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+
+        <Style Selector="Border.cardHolder">
+            <Setter Property="Width" Value="320"/>
+            <Setter Property="Height" Value="240"/>
+            <Setter Property="CornerRadius" Value="35"/>
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="BoxShadow" Value="0 10 25 0 #30000000"/>
+        </Style>
+
+        <Style Selector="Button.categoryCard">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.primaryBtn">
+            <Setter Property="Background" Value="#5849E8"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="55"/>
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.primaryBtn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4F46E5"/> <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

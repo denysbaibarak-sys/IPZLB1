@@ -1,0 +1,120 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClientAppe.ViewModels"
+             xmlns:m="using:ClientAppe.Models"
+             x:Class="ClientAppe.Views.CartView"
+             x:DataType="vm:CartViewModel">
+
+	<DockPanel Background="#F1F5F9">
+		<Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #05000000">
+			<Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
+				<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+					<TextBlock Text="🏠" Margin="0,0,10,0" VerticalAlignment="Center"/>
+					<TextBlock Text="FoodHub" FontSize="20" FontWeight="ExtraBold" Foreground="#5849E8"/>
+				</StackPanel>
+				
+				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
+					<Button Content="Головна" Classes="navLink"/>
+					<Button Content="Профіль" Classes="navLink"/>
+					<Button Content="Замовлення" Classes="navLink"/>
+					<Border Background="#EEF2FF" CornerRadius="8" Padding="10,5">
+						<TextBlock Text="🛒" Foreground="#5849E8" FontSize="18"/>
+					</Border>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<Grid ColumnDefinitions="*, 380" Margin="60,40">
+			
+			<StackPanel Grid.Column="0" Margin="0,0,40,0">
+				<TextBlock Text="{Binding ItemsCountText, FallbackValue='Кошик (2)'}" 
+						   FontSize="32" FontWeight="Bold" Margin="0,0,0,30"/>
+
+				<ItemsControl ItemsSource="{Binding CartItems}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate x:DataType="m:FoodModel">
+							<Border Background="White" CornerRadius="20" Margin="0,0,0,20" Padding="20" BoxShadow="0 4 15 0 #08000000">
+								<Grid ColumnDefinitions="Auto, *, Auto, Auto">
+									<Border Width="100" Height="80" CornerRadius="12" Background="#F8FAFC" ClipToBounds="True">
+										<TextBlock Text="🖼️" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+									</Border>
+
+									<StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
+										<TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+										<TextBlock Text="Пузата Хата" Foreground="#94A3B8" FontSize="14" Margin="0,4,0,8"/>
+										<TextBlock Text="{Binding Price, StringFormat='\{0\} грн'}" Foreground="#5849E8" FontWeight="Bold"/>
+									</StackPanel>
+
+									<Button Grid.Column="2" VerticalAlignment="Top" Background="Transparent" Padding="5"
+											Command="{Binding $parent[UserControl].((vm:CartViewModel)DataContext).RemoveItemCommand}"
+											CommandParameter="{Binding}">
+										<TextBlock Text="🗑️" Foreground="#EF4444" FontSize="16"/>
+									</Button>
+
+									<Border Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" 
+											Background="#F8FAFC" CornerRadius="8" Padding="5" Margin="0,0,0,0">
+										<StackPanel Orientation="Horizontal" Spacing="15">
+											<Button Content="-" Classes="qtyBtn"/>
+											<TextBlock Text="1" VerticalAlignment="Center" FontWeight="Bold"/>
+											<Button Content="+" Classes="qtyBtn active"/>
+										</StackPanel>
+									</Border>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+
+			<Border Grid.Column="1" Background="White" CornerRadius="25" Padding="30" VerticalAlignment="Top" BoxShadow="0 10 30 0 #08000000">
+				<StackPanel Spacing="25">
+					<TextBlock Text="Разом" FontSize="22" FontWeight="Bold"/>
+					
+					<StackPanel Spacing="15">
+						<Grid ColumnDefinitions="*, Auto">
+							<TextBlock Text="Вартість страв" Foreground="#64748B"/>
+							<TextBlock Grid.Column="1" Text="{Binding ItemsCost, StringFormat='\{0\} грн'}" FontWeight="Medium"/>
+						</Grid>
+						<Grid ColumnDefinitions="*, Auto">
+							<TextBlock Text="Доставка" Foreground="#64748B"/>
+							<TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold"/>
+						</Grid>
+					</StackPanel>
+
+					<Separator Background="#F1F5F9" Height="1"/>
+
+					<Grid ColumnDefinitions="*, Auto">
+						<TextBlock Text="До сплати" FontSize="20" FontWeight="Bold"/>
+						<TextBlock Grid.Column="1" Text="{Binding TotalCost, StringFormat='\{0\} грн'}" 
+								   FontSize="20" FontWeight="Bold" Foreground="#5849E8"/>
+					</Grid>
+
+					<Button Content="Перейти до оплати" Background="#0F172A" Foreground="White" 
+							Height="60" CornerRadius="15" HorizontalAlignment="Stretch" 
+							HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+							FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</DockPanel>
+
+	<UserControl.Styles>
+		<Style Selector="Button.qtyBtn">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Width" Value="32"/>
+			<Setter Property="Height" Value="32"/>
+			<Setter Property="CornerRadius" Value="6"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Button.qtyBtn.active">
+			<Setter Property="Background" Value="#0F172A"/>
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+		<Style Selector="Button.navLink">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Foreground" Value="#64748B"/>
+		</Style>
+	</UserControl.Styles>
+</UserControl>

@@ -1,0 +1,179 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClientAppe.ViewModels"
+             x:Class="ClientAppe.Views.CheckoutView"
+             x:DataType="vm:CheckoutViewModel">
+
+	<DockPanel Background="#F1F5F9">
+		<Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #05000000">
+			<Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
+				<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+					<TextBlock Text="🏠" Margin="0,0,10,0" VerticalAlignment="Center"/>
+					<TextBlock Text="FoodHub" FontSize="20" FontWeight="ExtraBold" Foreground="#5849E8"/>
+				</StackPanel>
+				
+				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
+					<Button Content="Головна" 
+							Classes="navLink" 
+							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+					
+					<Button Content="Профіль" 
+							Classes="navLink" 
+							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+					
+					<Button Content="Замовлення" 
+							Classes="navLink" 
+							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+					
+					<Panel>
+						<TextBlock Text="🛒" VerticalAlignment="Center" FontSize="18"/>
+						<Border Background="#5849E8" CornerRadius="8" Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,-5,0,0">
+							<TextBlock Text="2" Foreground="White" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+					</Panel>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<ScrollViewer>
+			<Grid ColumnDefinitions="*, 380" Margin="60,40" MaxWidth="1200" HorizontalAlignment="Center">
+				
+				<StackPanel Grid.Column="0" Margin="0,0,40,0" Spacing="30">
+					<TextBlock Text="Оформлення замовлення" FontSize="32" FontWeight="Bold"/>
+
+					<Border Background="White" CornerRadius="20" Padding="30" BoxShadow="0 4 15 0 #08000000">
+						<StackPanel Spacing="20">
+							<StackPanel Orientation="Horizontal" Spacing="10">
+								<TextBlock Text="📍" FontSize="18" VerticalAlignment="Center"/>
+								<TextBlock Text="Адреса доставки" FontSize="18" FontWeight="Bold"/>
+							</StackPanel>
+
+							<TextBox Text="{Binding StreetAddress}" Watermark="м. Київ, вул. Хрещатик, 1" Classes="checkoutInput"/>
+
+							<Grid ColumnDefinitions="*, *, 2*">
+								<TextBox Grid.Column="0" 
+										 Margin="0,0,15,0" 
+										 Text="{Binding Entrance}" 
+										 Watermark="Під'їзд" 
+										 Classes="checkoutInput"/>
+								
+								<TextBox Grid.Column="1" 
+										 Margin="0,0,15,0" 
+										 Text="{Binding Floor}" 
+										 Watermark="Поверх" 
+										 Classes="checkoutInput"/>
+								
+								<TextBox Grid.Column="2" 
+										 Text="{Binding Intercom}" 
+										 Watermark="Квартира/офіс" 
+										 Classes="checkoutInput"/>
+							</Grid>
+
+							<TextBox Text="{Binding CourierComment}" Watermark="Коментар для кур'єра (напр. код дверей)" AcceptsReturn="True" Height="80" Classes="checkoutInput"/>
+						</StackPanel>
+					</Border>
+
+					<Border Background="White" CornerRadius="20" Padding="30" BoxShadow="0 4 15 0 #08000000">
+						<StackPanel Spacing="20">
+							<StackPanel Orientation="Horizontal" Spacing="10">
+								<TextBlock Text="💳" FontSize="18" VerticalAlignment="Center"/>
+								<TextBlock Text="Спосіб оплати" FontSize="18" FontWeight="Bold"/>
+							</StackPanel>
+							
+							<ListBox ItemsSource="{Binding PaymentMethods}" SelectedItem="{Binding SelectedPaymentMethod}" Background="Transparent" BorderThickness="0">
+								<ListBox.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Spacing="10"/>
+									</ItemsPanelTemplate>
+								</ListBox.ItemsPanel>
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="15">
+											<Grid ColumnDefinitions="Auto, Auto, *">
+												<RadioButton IsChecked="{Binding $parent[ListBoxItem].IsSelected}" GroupName="Payment" VerticalAlignment="Center"/>
+												<TextBlock Grid.Column="1" Text="{Binding Icon}" FontSize="20" Margin="15,0" VerticalAlignment="Center"/>
+												<TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="16" VerticalAlignment="Center"/>
+											</Grid>
+										</Border>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+						</StackPanel>
+					</Border>
+				</StackPanel>
+
+				<Border Grid.Column="1" Background="White" CornerRadius="25" Padding="30" VerticalAlignment="Top" BoxShadow="0 10 30 0 #08000000">
+					<StackPanel Spacing="25">
+						<TextBlock Text="Ваше замовлення" FontSize="22" FontWeight="Bold"/>
+						
+						<StackPanel Spacing="10">
+							<Grid ColumnDefinitions="*, Auto">
+								<TextBlock Text="Піца Маргарита х1" Foreground="#64748B"/>
+								<TextBlock Grid.Column="1" Text="190 грн" FontWeight="Medium"/>
+							</Grid>
+							<Grid ColumnDefinitions="*, Auto">
+								<TextBlock Text="Борщ український х1" Foreground="#64748B"/>
+								<TextBlock Grid.Column="1" Text="85 грн" FontWeight="Medium"/>
+							</Grid>
+						</StackPanel>
+
+						<Separator Background="#F1F5F9" Height="1"/>
+
+						<StackPanel Spacing="15">
+							<Grid ColumnDefinitions="*, Auto">
+								<TextBlock Text="Вартість страв" Foreground="#64748B"/>
+								<TextBlock Grid.Column="1" Text="275 грн"/>
+							</Grid>
+							<Grid ColumnDefinitions="*, Auto">
+								<TextBlock Text="Доставка" Foreground="#64748B"/>
+								<TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold"/>
+							</Grid>
+						</StackPanel>
+
+						<Separator Background="#F1F5F9" Height="1"/>
+
+						<Grid ColumnDefinitions="*, Auto">
+							<TextBlock Text="До сплати" FontSize="20" FontWeight="Bold"/>
+							<TextBlock Grid.Column="1" Text="275 грн" FontSize="20" FontWeight="Bold" Foreground="#5849E8"/>
+						</Grid>
+
+						<Button Content="✔️ Оформити замовлення" Command="{Binding ConfirmOrderCommand}"
+								Background="#0F172A" Foreground="White" Height="60" CornerRadius="15" 
+								HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+								FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
+					</StackPanel>
+				</Border>
+			</Grid>
+		</ScrollViewer>
+	</DockPanel>
+
+	<UserControl.Styles>
+		<Style Selector="TextBox.checkoutInput">
+			<Setter Property="Background" Value="#F8FAFC"/>
+			<Setter Property="BorderBrush" Value="#E2E8F0"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="CornerRadius" Value="12"/>
+			<Setter Property="Height" Value="50"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="15,0"/>
+		</Style>
+		<Style Selector="TextBox.checkoutInput:focus">
+			<Setter Property="BorderBrush" Value="#5849E8"/>
+		</Style>
+		<Style Selector="Button.navLink">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Foreground" Value="#64748B"/>
+		</Style>
+		<Style Selector="ListBoxItem">
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+		<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+		<Style Selector="ListBoxItem:selected Border">
+			<Setter Property="BorderBrush" Value="#5849E8"/>
+			<Setter Property="Background" Value="#EEF2FF"/>
+		</Style>
+	</UserControl.Styles>
+</UserControl>

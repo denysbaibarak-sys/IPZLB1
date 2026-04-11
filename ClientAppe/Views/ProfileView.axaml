@@ -1,0 +1,113 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ClientAppe.ViewModels"
+             x:Class="ClientAppe.Views.ProfileView"
+             x:DataType="vm:ProfileViewModel">
+
+	<DockPanel Background="#F7F9FC">
+		<Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
+			<Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
+				<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+					<TextBlock Text="🏠" Margin="0,0,10,0" VerticalAlignment="Center"/>
+					<TextBlock Text="FoodHub" FontSize="20" FontWeight="ExtraBold" Foreground="#5849E8"/>
+				</StackPanel>
+
+				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
+					<Button Content="Головна" Classes="navLink"
+							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+
+					<Button Content="Профіль" Classes="navLink active" Background="#EEF2FF" Foreground="#5849E8"/>
+
+					<Button Content="Замовлення" Classes="navLink"
+							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+
+					<TextBlock Text="🛒" VerticalAlignment="Center" Cursor="Hand"/>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<Grid ColumnDefinitions="300, *" Margin="40">
+			<Border Grid.Column="0" Background="White" CornerRadius="20" Padding="15" VerticalAlignment="Top" BoxShadow="0 5 15 0 #08000000">
+				<StackPanel Spacing="10">
+					<Button Content="👤 Профіль" Classes="menuBtn active"/>
+					<Button Content="💬 Повідомлення" Classes="menuBtn"/>
+
+					<Separator Background="#F1F5F9" Margin="5,10"/>
+
+					<Button Content="↪️ Вийти з акаунту" Classes="menuBtn logout" Foreground="#EF4444" Command="{Binding LogoutCommand}"/>
+				</StackPanel>
+			</Border>
+
+			<Border Grid.Column="1" Margin="30,0,0,0" Background="White" CornerRadius="20" Padding="40" BoxShadow="0 5 15 0 #08000000">
+				<StackPanel Spacing="30">
+					<Grid ColumnDefinitions="*, Auto">
+						<TextBlock Text="Профіль" FontSize="28" FontWeight="Bold" Foreground="#1A1A1A"/>
+						<Button Grid.Column="1" Content="✏️ Редагувати" Background="#5849E8" Foreground="White" Padding="20,10" CornerRadius="10" FontWeight="Bold"/>
+					</Grid>
+
+					<StackPanel Orientation="Horizontal" Spacing="25">
+						<Border Width="100" Height="100" CornerRadius="50" Background="#5849E8">
+							<TextBlock Text="{Binding UserInitial}" Foreground="White" FontSize="40" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+
+						<StackPanel VerticalAlignment="Center">
+							<TextBlock Text="{Binding User.Login}" FontSize="24" FontWeight="Bold"/>
+							<TextBlock Text="{Binding User.RegistrationDate, StringFormat='З нами з \{0\}'}" Foreground="#94A3B8" Margin="0,5,0,0"/>
+						</StackPanel>
+					</StackPanel>
+
+					<Separator Background="#F1F5F9"/>
+
+					<StackPanel Spacing="20">
+						<Border Background="#F8FAFC" CornerRadius="12" Padding="20,15">
+							<StackPanel>
+								<TextBlock Text="Email" FontSize="12" Foreground="#94A3B8" Margin="0,0,0,5"/>
+								<TextBlock Text="{Binding User.Email}" FontWeight="Medium" FontSize="16"/>
+							</StackPanel>
+						</Border>
+
+						<Border Background="#F8FAFC" CornerRadius="12" Padding="20,15">
+							<StackPanel>
+								<TextBlock Text="Телефон" FontSize="12" Foreground="#94A3B8" Margin="0,0,0,5"/>
+								<TextBlock Text="{Binding User.Phone}" FontWeight="Medium" FontSize="16"/>
+							</StackPanel>
+						</Border>
+
+						<Border Background="#F8FAFC" CornerRadius="12" Padding="20,15">
+							<StackPanel>
+								<TextBlock Text="Адреса доставки" FontSize="12" Foreground="#94A3B8" Margin="0,0,0,5"/>
+								<TextBlock Text="{Binding User.Address}" FontWeight="Medium" FontSize="16"/>
+							</StackPanel>
+						</Border>
+					</StackPanel>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</DockPanel>
+
+	<UserControl.Styles>
+		<Style Selector="Button.navLink">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Padding" Value="15,8"/>
+			<Setter Property="CornerRadius" Value="8"/>
+		</Style>
+
+		<Style Selector="Button.menuBtn">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="HorizontalContentAlignment" Value="Left"/>
+			<Setter Property="Padding" Value="15,12"/>
+			<Setter Property="CornerRadius" Value="10"/>
+			<Setter Property="FontSize" Value="15"/>
+			<Setter Property="FontWeight" Value="Medium"/>
+			<Setter Property="Foreground" Value="#64748B"/>
+		</Style>
+		<Style Selector="Button.menuBtn.active">
+			<Setter Property="Background" Value="#EEF2FF"/>
+			<Setter Property="Foreground" Value="#5849E8"/>
+		</Style>
+		<Style Selector="Button.menuBtn:pointerover">
+			<Setter Property="Background" Value="#F8FAFC"/>
+		</Style>
+	</UserControl.Styles>
+</UserControl>

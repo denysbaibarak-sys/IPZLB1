@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ClientAppe.ViewModels"
+        xmlns:local="using:ClientAppe.Views"
+        x:Class="ClientAppe.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="FoodHub"
+        WindowState="Maximized">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <ContentControl Content="{Binding CurrentViewModel}" />
+</Window>

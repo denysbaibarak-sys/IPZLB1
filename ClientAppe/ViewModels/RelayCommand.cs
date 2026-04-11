@@ -1,0 +1,30 @@
+﻿using System;
+using System.Windows.Input;
+
+namespace ClientAppe.ViewModels
+{
+    public class RelayCommand : ICommand
+    {
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+        // В Avalonia ми використовуємо стандартну подію без CommandManager
+        public event EventHandler CanExecuteChanged;
+
+        // Метод для примусового оновлення стану кнопки (наприклад, зробити кнопку активною)
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
+
+        public void Execute(object parameter) => _execute(parameter);
+    }
+}
