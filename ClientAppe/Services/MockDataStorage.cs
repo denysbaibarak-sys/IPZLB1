@@ -40,7 +40,6 @@ namespace ClientAppe.Services
             new FoodModel { Name = "Борщ український", Price = 85, Description = "Насичений червоний борщ зі свининою та сметаною." },
             new FoodModel { Name = "Солянка м'ясна", Price = 95, Description = "Густий суп з копченостями, оливками та лимоном." },
             new FoodModel { Name = "Піца Маргарита", Price = 190, Description = "Класична піца з томатами та моцарелою." },
-            new FoodModel { Name = "Кола 0.5", Price = 45, Description = "Охолоджений напій." }
         };
 
         // Дані профілю

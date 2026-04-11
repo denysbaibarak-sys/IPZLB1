@@ -1,4 +1,5 @@
-﻿using ClientAppe.Services;
+﻿using ClientAppe.Models;
+using ClientAppe.Services;
 using System.Windows.Input;
 
 namespace ClientAppe.ViewModels
@@ -13,7 +14,14 @@ namespace ClientAppe.ViewModels
             get => _currentViewModel;
             set { _currentViewModel = value; OnPropertyChanged(); }
         }
-
+        public void NavigateToDetails(RestaurantModel restaurant)
+        {
+            if (restaurant != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"!!! КЛІК ПРАЦЮЄ: {restaurant.Name} !!!");
+                CurrentViewModel = new RestaurantDetailsViewModel(this, restaurant);
+            }
+        }
         // КОМАНДИ НАВІГАЦІЇ
         public ICommand NavigateToHomeCommand { get; }
         public ICommand NavigateToAuthCommand { get; }
@@ -35,7 +43,7 @@ namespace ClientAppe.ViewModels
             NavigateToAuthCommand = new RelayCommand(o => CurrentViewModel = new AuthViewModel());
 
             // Перехід до списку ресторанів (наприклад, з категорії "🍴 Ресторан")
-            NavigateToRestaurantsCommand = new RelayCommand(o => CurrentViewModel = new RestaurantsViewModel());
+            NavigateToRestaurantsCommand = new RelayCommand(o => CurrentViewModel = new RestaurantsViewModel(this));
 
             // Деталі ресторану
             NavigateToRestaurantDetailsCommand = new RelayCommand(o =>

@@ -5,142 +5,149 @@
              x:Class="ClientAppe.Views.RestaurantDetailsView"
              x:DataType="vm:RestaurantDetailsViewModel">
 
-	<DockPanel Background="#F7F9FC">
-		<Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
-			<Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
-				<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-					<TextBlock Text="🏠" Margin="0,0,10,0" VerticalAlignment="Center"/>
-					<TextBlock Text="FoodHub" FontSize="20" FontWeight="ExtraBold" Foreground="#5849E8"/>
-				</StackPanel>
+    <DockPanel Background="#F7F9FC">
+        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+                    </Border>
+                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                </StackPanel>
 
-				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
-					<Button Content="Головна" Classes="navLink"
-							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
+                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+                    
+                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Кошик" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-					<Button Content="Профіль" Classes="navLink"
-							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+        <ScrollViewer>
+            <StackPanel>
+                <Panel Height="350">
+                    <Border Background="#2D3748"/> 
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,100%" EndPoint="0%,0%">
+                                <GradientStop Offset="0" Color="#CC000000"/>
+                                <GradientStop Offset="0.7" Color="#00000000"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
 
-					<Button Content="Замовлення" Classes="navLink"
-							Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+                    <StackPanel VerticalAlignment="Bottom" Margin="60,40" Spacing="15">
+                        <TextBlock Text="{Binding RestaurantName}" FontSize="48" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="{Binding Description}" Foreground="#CBD5E0" FontSize="18" MaxWidth="700" TextWrapping="Wrap"/>
 
-					<Panel>
-						<TextBlock Text="🛒" VerticalAlignment="Center" FontSize="20" Cursor="Hand"/>
-						<Border Background="#5849E8" CornerRadius="10" Width="18" Height="18"
-								HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,-5,0,0">
-							<TextBlock Text="2" Foreground="White" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-						</Border>
-					</Panel>
-				</StackPanel>
-			</Grid>
-		</Border>
+                        <StackPanel Orientation="Horizontal" Spacing="25">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <PathIcon Data="{StaticResource star_regular}" Foreground="#FACC15" Width="18" Height="18"/>
+                                <TextBlock Text="4.8" Foreground="White" FontWeight="Bold" FontSize="16"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <PathIcon Data="{StaticResource clock_regular}" Foreground="White" Width="18" Height="18"/>
+                                <TextBlock Text="30-45 хв" Foreground="White" FontSize="16"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <PathIcon Data="{StaticResource location_regular}" Foreground="White" Width="18" Height="18"/>
+                                <TextBlock Text="1.2 км" Foreground="White" FontSize="16"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Panel>
 
-		<ScrollViewer>
-			<StackPanel>
-				<Panel Height="300">
-					<Image Source="avares://ClientAppe/Assets/restaurant_bg.jpg" Stretch="UniformToFill"/>
-					<Border>
-						<Border.Background>
-							<LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-								<GradientStop Offset="0" Color="#CC000000"/>
-								<GradientStop Offset="1" Color="#00000000"/>
-							</LinearGradientBrush>
-						</Border.Background>
-					</Border>
+                <ItemsControl ItemsSource="{Binding Categories}" Margin="60,30,60,10">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="15"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Classes="categoryTab">
+                                <TextBlock Text="{Binding}" Foreground="#1A202C" FontWeight="SemiBold"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-					<StackPanel VerticalAlignment="Bottom" Margin="40" Spacing="10">
-						<TextBlock Text="Пузата Хата" FontSize="36" FontWeight="Bold" Foreground="White"/>
-						<TextBlock Text="Справжня українська домашня кухня. Гарячі борщі, вареники та ситні м'ясні страви."
-								   Foreground="#E2E8F0" FontSize="16" MaxWidth="800" TextWrapping="Wrap"/>
+                <ItemsControl ItemsSource="{Binding MenuItems}" Margin="60,20">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="m:FoodModel">
+                            <Border Width="380" Margin="0,0,30,30" Background="White" CornerRadius="24" BoxShadow="0 10 25 0 #08000000">
+                                <StackPanel>
+                                    <Border Height="220" CornerRadius="24,24,0,0" Background="#F1F5F9" ClipToBounds="True">
+                                        <TextBlock Text="🍲" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
 
-						<StackPanel Orientation="Horizontal" Spacing="20" Margin="0,10,0,0">
-							<StackPanel Orientation="Horizontal" Spacing="5">
-								<TextBlock Text="⭐" Foreground="#FACC15"/>
-								<TextBlock Text="4.8" Foreground="White" FontWeight="Bold"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Spacing="5">
-								<TextBlock Text="🕒" Foreground="#E2E8F0"/>
-								<TextBlock Text="30-45 хв" Foreground="White"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Spacing="5">
-								<TextBlock Text="📍" Foreground="#E2E8F0"/>
-								<TextBlock Text="1.2 км" Foreground="White"/>
-							</StackPanel>
-						</StackPanel>
-					</StackPanel>
-				</Panel>
+                                    <StackPanel Margin="25" Spacing="12">
+                                        <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Foreground="#1A202C"/>
+                                        <TextBlock Text="{Binding Description}" Foreground="#718096" FontSize="14" TextWrapping="Wrap" Height="45"/>
 
-				<ItemsControl ItemsSource="{Binding Categories}" Margin="40,30,40,10">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel Orientation="Horizontal" Spacing="15"/>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Button Content="{Binding}" Classes="categoryTab"/>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
+<Grid ColumnDefinitions="*, Auto" Margin="0,15,0,0">
+    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+        <TextBlock Text="{Binding Price}" FontSize="22" FontWeight="ExtraBold" Foreground="#5849E8"/>
+        <TextBlock Text=" грн" FontSize="22" FontWeight="ExtraBold" Foreground="#5849E8"/>
+    </StackPanel>
 
-				<ItemsControl ItemsSource="{Binding MenuItems}" Margin="40,20">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel/>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
+    <Button Grid.Column="1" 
+            Content="+ Додати" 
+            Classes="addBtn"
+            Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).AddToCartCommand}"
+            CommandParameter="{Binding}"/>
+</Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 
-					<ItemsControl.ItemTemplate>
-						<DataTemplate x:DataType="m:FoodModel">
-							<Border Width="380" Margin="0,0,25,25" Background="White" CornerRadius="20" BoxShadow="0 8 20 0 #08000000">
-								<StackPanel>
-									<Border Height="200" CornerRadius="20,20,0,0" Background="#F1F5F9" ClipToBounds="True">
-										<TextBlock Text="🍲" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-									</Border>
+<UserControl.Styles>
+    <Style Selector="Button.navLink">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#4A5568"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Button.navLink:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#F1F5F9"/>
+        <Setter Property="Foreground" Value="#5849E8"/>
+    </Style>
 
-									<StackPanel Margin="20" Spacing="10">
-										<TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
-										<TextBlock Text="{Binding Description}" Foreground="#94A3B8" FontSize="13" TextWrapping="Wrap" Height="40"/>
+    <Style Selector="Button.categoryTab">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Padding" Value="25,12"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#E2E8F0"/>
+    </Style>
 
-										<Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
-											<TextBlock Text="{Binding Price, StringFormat='\{0\} грн'}" FontSize="20" FontWeight="Bold" Foreground="#5849E8" VerticalAlignment="Center"/>
-
-											<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
-												<Button Content="+" Classes="addBtn"
-														Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).AddToCartCommand}"
-														CommandParameter="{Binding}"/>
-											</StackPanel>
-										</Grid>
-									</StackPanel>
-								</StackPanel>
-							</Border>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</StackPanel>
-		</ScrollViewer>
-	</DockPanel>
-
-	<UserControl.Styles>
-		<Style Selector="Button.navLink">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="FontSize" Value="14"/>
-		</Style>
-
-		<Style Selector="Button.categoryTab">
-			<Setter Property="Background" Value="White"/>
-			<Setter Property="Padding" Value="25,12"/>
-			<Setter Property="CornerRadius" Value="12"/>
-			<Setter Property="FontWeight" Value="SemiBold"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="BorderBrush" Value="#E2E8F0"/>
-		</Style>
-
-		<Style Selector="Button.addBtn">
-			<Setter Property="Background" Value="#1A202C"/>
-			<Setter Property="Foreground" Value="White"/>
-			<Setter Property="Padding" Value="20,8"/>
-			<Setter Property="CornerRadius" Value="10"/>
-			<Setter Property="FontWeight" Value="Bold"/>
-		</Style>
-	</UserControl.Styles>
+    <Style Selector="Button.addBtn">
+        <Setter Property="Background" Value="#1A202C"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="25,10"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style Selector="Button.addBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#2D3748"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+</UserControl.Styles>
 </UserControl>

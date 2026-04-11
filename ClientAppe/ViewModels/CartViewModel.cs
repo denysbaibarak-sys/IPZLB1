@@ -14,9 +14,9 @@ namespace ClientAppe.ViewModels
         public ObservableCollection<FoodModel> CartItems => _cartService.Items;
 
         // Динамічні властивості для підрахунку суми
-        public double ItemsCost => _cartService.GetTotal();
+        public decimal ItemsCost => _cartService.GetTotal();
         public string DeliveryCost => "Безкоштовно";
-        public double TotalCost => ItemsCost;
+        public decimal TotalCost => ItemsCost;
 
         // Для заголовка "Кошик (2)"
         public string ItemsCountText => $"Кошик ({CartItems.Count})";

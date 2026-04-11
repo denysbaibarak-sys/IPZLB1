@@ -28,7 +28,7 @@ namespace ClientAppe.Services
         }
 
         // Порахувати загальну суму
-        public double GetTotal()
+        public decimal GetTotal()
         {
             return Items.Sum(x => x.Price);
         }

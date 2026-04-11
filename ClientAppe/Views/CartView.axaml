@@ -1,120 +1,108 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:ClientAppe.ViewModels"
-             xmlns:m="using:ClientAppe.Models"
              x:Class="ClientAppe.Views.CartView"
              x:DataType="vm:CartViewModel">
 
-	<DockPanel Background="#F1F5F9">
-		<Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #05000000">
-			<Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
-				<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-					<TextBlock Text="🏠" Margin="0,0,10,0" VerticalAlignment="Center"/>
-					<TextBlock Text="FoodHub" FontSize="20" FontWeight="ExtraBold" Foreground="#5849E8"/>
-				</StackPanel>
-				
-				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
-					<Button Content="Головна" Classes="navLink"/>
-					<Button Content="Профіль" Classes="navLink"/>
-					<Button Content="Замовлення" Classes="navLink"/>
-					<Border Background="#EEF2FF" CornerRadius="8" Padding="10,5">
-						<TextBlock Text="🛒" Foreground="#5849E8" FontSize="18"/>
-					</Border>
-				</StackPanel>
-			</Grid>
-		</Border>
+    <DockPanel Background="#F7F9FC">
+        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto" Margin="60,0"> <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+                    </Border>
+                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                </StackPanel>
 
-		<Grid ColumnDefinitions="*, 380" Margin="60,40">
-			
-			<StackPanel Grid.Column="0" Margin="0,0,40,0">
-				<TextBlock Text="{Binding ItemsCountText, FallbackValue='Кошик (2)'}" 
-						   FontSize="32" FontWeight="Bold" Margin="0,0,0,30"/>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
+                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+                    
+                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Кошик" Foreground="#1A1A1A" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-				<ItemsControl ItemsSource="{Binding CartItems}">
-					<ItemsControl.ItemTemplate>
-						<DataTemplate x:DataType="m:FoodModel">
-							<Border Background="White" CornerRadius="20" Margin="0,0,0,20" Padding="20" BoxShadow="0 4 15 0 #08000000">
-								<Grid ColumnDefinitions="Auto, *, Auto, Auto">
-									<Border Width="100" Height="80" CornerRadius="12" Background="#F8FAFC" ClipToBounds="True">
-										<TextBlock Text="🖼️" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-									</Border>
+        <ScrollViewer>
+            <Grid ColumnDefinitions="*, 400" Margin="80,40">
+                
+                <StackPanel Grid.Column="0" Spacing="20">
+                    <TextBlock Text="Кошик (0)" 
+                               FontSize="32" 
+                               FontWeight="Bold" 
+                               Foreground="#1A1A1A"/> <Border Background="White" Height="200" CornerRadius="20" BoxShadow="0 5 15 0 #05000000">
+                        <TextBlock Text="Тут поки порожньо..." 
+                                   Foreground="#94A3B8" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                </StackPanel>
 
-									<StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
-										<TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
-										<TextBlock Text="Пузата Хата" Foreground="#94A3B8" FontSize="14" Margin="0,4,0,8"/>
-										<TextBlock Text="{Binding Price, StringFormat='\{0\} грн'}" Foreground="#5849E8" FontWeight="Bold"/>
-									</StackPanel>
+                <Border Grid.Column="1" 
+                        Margin="40,0,0,0" 
+                        VerticalAlignment="Top" 
+                        Background="White" 
+                        CornerRadius="24" 
+                        Padding="30" 
+                        BoxShadow="0 10 30 0 #08000000">
+                    <StackPanel Spacing="20">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="Вартість страв" Foreground="#718096" FontSize="16"/>
+                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#1A202C" FontWeight="Bold" FontSize="16"/>
+                        </Grid>
+                        
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="Доставка" Foreground="#718096" FontSize="16"/>
+                            <TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold" FontSize="16"/>
+                        </Grid>
 
-									<Button Grid.Column="2" VerticalAlignment="Top" Background="Transparent" Padding="5"
-											Command="{Binding $parent[UserControl].((vm:CartViewModel)DataContext).RemoveItemCommand}"
-											CommandParameter="{Binding}">
-										<TextBlock Text="🗑️" Foreground="#EF4444" FontSize="16"/>
-									</Button>
+                        <Separator Height="1" Background="#F1F5F9" Margin="0,10"/>
 
-									<Border Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" 
-											Background="#F8FAFC" CornerRadius="8" Padding="5" Margin="0,0,0,0">
-										<StackPanel Orientation="Horizontal" Spacing="15">
-											<Button Content="-" Classes="qtyBtn"/>
-											<TextBlock Text="1" VerticalAlignment="Center" FontWeight="Bold"/>
-											<Button Content="+" Classes="qtyBtn active"/>
-										</StackPanel>
-									</Border>
-								</Grid>
-							</Border>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</StackPanel>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="До сплати" Foreground="#1A1A1A" FontWeight="Bold" FontSize="20"/>
+                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#5849E8" FontWeight="ExtraBold" FontSize="24"/>
+                        </Grid>
 
-			<Border Grid.Column="1" Background="White" CornerRadius="25" Padding="30" VerticalAlignment="Top" BoxShadow="0 10 30 0 #08000000">
-				<StackPanel Spacing="25">
-					<TextBlock Text="Разом" FontSize="22" FontWeight="Bold"/>
-					
-					<StackPanel Spacing="15">
-						<Grid ColumnDefinitions="*, Auto">
-							<TextBlock Text="Вартість страв" Foreground="#64748B"/>
-							<TextBlock Grid.Column="1" Text="{Binding ItemsCost, StringFormat='\{0\} грн'}" FontWeight="Medium"/>
-						</Grid>
-						<Grid ColumnDefinitions="*, Auto">
-							<TextBlock Text="Доставка" Foreground="#64748B"/>
-							<TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold"/>
-						</Grid>
-					</StackPanel>
+                        <Button Content="Перейти до оплати" 
+                                Classes="checkoutBtn" 
+                                Margin="0,10,0,0"
+                                Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCheckoutCommand}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 
-					<Separator Background="#F1F5F9" Height="1"/>
+<UserControl.Styles>
+    <Style Selector="Button.navLink">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#4A5568"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    
+    <Style Selector="Button.navLink:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#F1F5F9"/>
+        <Setter Property="Foreground" Value="#5849E8"/>
+    </Style>
+    
+    <Style Selector="Button.checkoutBtn">
+        <Setter Property="Background" Value="#1A202C"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="55"/>
+        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
 
-					<Grid ColumnDefinitions="*, Auto">
-						<TextBlock Text="До сплати" FontSize="20" FontWeight="Bold"/>
-						<TextBlock Grid.Column="1" Text="{Binding TotalCost, StringFormat='\{0\} грн'}" 
-								   FontSize="20" FontWeight="Bold" Foreground="#5849E8"/>
-					</Grid>
-
-					<Button Content="Перейти до оплати" Background="#0F172A" Foreground="White" 
-							Height="60" CornerRadius="15" HorizontalAlignment="Stretch" 
-							HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-							FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
-				</StackPanel>
-			</Border>
-		</Grid>
-	</DockPanel>
-
-	<UserControl.Styles>
-		<Style Selector="Button.qtyBtn">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="Width" Value="32"/>
-			<Setter Property="Height" Value="32"/>
-			<Setter Property="CornerRadius" Value="6"/>
-			<Setter Property="Padding" Value="0"/>
-			<Setter Property="HorizontalContentAlignment" Value="Center"/>
-			<Setter Property="VerticalContentAlignment" Value="Center"/>
-		</Style>
-		<Style Selector="Button.qtyBtn.active">
-			<Setter Property="Background" Value="#0F172A"/>
-			<Setter Property="Foreground" Value="White"/>
-		</Style>
-		<Style Selector="Button.navLink">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="Foreground" Value="#64748B"/>
-		</Style>
-	</UserControl.Styles>
+    <Style Selector="Button.checkoutBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#2D3748"/> <Setter Property="Foreground" Value="White"/>   </Style>
+</UserControl.Styles>
 </UserControl>

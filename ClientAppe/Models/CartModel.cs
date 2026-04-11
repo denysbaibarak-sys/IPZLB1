@@ -8,7 +8,7 @@ namespace ClientAppe.Models
         // Список страв у кошику
         public List<FoodModel> Items { get; set; } = new List<FoodModel>();
 
-        // Автоматичний підрахунок суми
-        public double TotalPrice => Items.Sum(item => item.Price);
+        // Сума тепер також у decimal, щоб збігатися з типом ціни страви
+        public decimal TotalPrice => Items.Sum(item => item.Price);
     }
 }

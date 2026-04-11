@@ -2,12 +2,14 @@
 using ClientAppe.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System;
 
 namespace ClientAppe.ViewModels
 {
     public class RestaurantsViewModel : ViewModelBase
     {
         private readonly ApiService _apiService = new ApiService();
+        private readonly MainViewModel _mainViewModel;
 
         private ObservableCollection<RestaurantModel> _restaurants;
         public ObservableCollection<RestaurantModel> Restaurants
@@ -23,39 +25,57 @@ namespace ClientAppe.ViewModels
             set { _foundCountText = value; OnPropertyChanged(); }
         }
 
+        // Команди обов'язково мають бути public
         public ICommand FilterCategoryCommand { get; }
         public ICommand SortCommand { get; }
-        public ICommand SelectRestaurantCommand { get; }
+        public ICommand NavigateToDetailsCommand { get; }
 
-        public RestaurantsViewModel()
+        public RestaurantsViewModel(MainViewModel mainVM)
         {
-            // 1. Спочатку ініціалізуємо команди
-            FilterCategoryCommand = new RelayCommand(category => { /* Логіка фільтрації */ });
-            SortCommand = new RelayCommand(sortType => { /* Логіка сортування */ });
+            _mainViewModel = mainVM ?? throw new ArgumentNullException(nameof(mainVM));
 
-            SelectRestaurantCommand = new RelayCommand(restaurant =>
+            // Ініціалізуємо команди відразу
+            FilterCategoryCommand = new RelayCommand(category =>
             {
-                if (restaurant is RestaurantModel selected)
+                // Тут буде фільтрація в ЛБ 4
+                Console.WriteLine($"Фільтр: {category}");
+            });
+
+            SortCommand = new RelayCommand(sortType =>
+            {
+                // Тут буде сортування в ЛБ 4
+                Console.WriteLine($"Сортування: {sortType}");
+            });
+
+            // Ця команда відповідає за клік по картці
+            NavigateToDetailsCommand = new RelayCommand(param =>
+            {
+                // Перевіряємо, що прийшов саме об'єкт ресторану
+                if (param is RestaurantModel selected)
                 {
-                    // В ЛБ 4 тут буде перехід: 
-                    // MainViewModel.CurrentViewModel = new RestaurantDetailsViewModel(selected);
+                    _mainViewModel.NavigateToDetails(selected);
                 }
             });
 
-            // 2. А потім запускаємо завантаження даних
             LoadData();
         }
 
         private async void LoadData()
         {
-            // Викликаємо метод з ApiService, який імітує мережу
-            var data = await _apiService.GetRestaurantsAsync();
-
-            // Оновлюємо список
-            Restaurants = new ObservableCollection<RestaurantModel>(data);
-
-            // Оновлюємо лічильник
-            FoundCountText = $"Знайдено {Restaurants.Count} закладів";
+            try
+            {
+                var data = await _apiService.GetRestaurantsAsync();
+                if (data != null)
+                {
+                    Restaurants = new ObservableCollection<RestaurantModel>(data);
+                    FoundCountText = $"Знайдено {Restaurants.Count} закладів";
+                }
+            }
+            catch (Exception ex)
+            {
+                FoundCountText = "Помилка зв'язку з сервером";
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
     }
 }
