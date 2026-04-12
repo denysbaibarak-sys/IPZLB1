@@ -1,0 +1,23 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ClientAppe.ViewModels"
+        xmlns:local="using:ClientAppe.Views" 
+        x:Class="ClientAppe.Views.CartWindow"
+        x:DataType="vm:CartWindowViewModel"
+        Title="FoodHub - Кошик" 
+        Width="900" Height="800"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#F7F9FC">
+
+    <Window.DataTemplates>
+        <DataTemplate DataType="{x:Type vm:CartViewModel}">
+            <local:CartView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CheckoutViewModel}">
+            <local:CheckoutView/>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <ContentControl Content="{Binding CurrentView}"/>
+</Window>

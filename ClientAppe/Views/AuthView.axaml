@@ -5,7 +5,7 @@
              x:DataType="vm:AuthViewModel">
 
     <Grid Background="#F0F4F8">
-        <Border Background="White" CornerRadius="15" MaxWidth="450" Margin="20"
+        <Border Background="White" CornerRadius="15" MinWidth="350" MaxWidth="450" Margin="20"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
                 BoxShadow="0 10 30 0 #20000000">
 
@@ -41,6 +41,7 @@
 
                 <Button Command="{Binding AuthActionCommand}"
                         Content="{Binding ButtonText}"
+                        Classes="loginBtn"
                         Background="#5849E8" Foreground="White" Height="50"
                         HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center" CornerRadius="8"
@@ -50,10 +51,21 @@
                     <TextBlock Text="{Binding SwitchHintText}" Foreground="#757575"/>
                     <Button Content="{Binding SwitchButtonText}" 
                             Command="{Binding ToggleModeCommand}"
+                            Classes="linkBtn"
                             Background="Transparent" Foreground="#5849E8" 
                             Padding="0" BorderThickness="0" Cursor="Hand"/>
                 </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
+    <UserControl.Styles>
+    <Style Selector="Button.loginBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#4739C9"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style Selector="Button.linkBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#3B2EB0"/> <Setter Property="TextBlock.TextDecorations" Value="Underline"/> </Style>
+</UserControl.Styles>
 </UserControl>

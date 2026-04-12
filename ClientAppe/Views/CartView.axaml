@@ -6,36 +6,26 @@
 
     <DockPanel Background="#F7F9FC">
         <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
-            <Grid ColumnDefinitions="Auto, *, Auto" Margin="60,0"> <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid Margin="30,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
                         <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
                     </Border>
                     <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
                 </StackPanel>
-
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
-                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
-                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
-                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
-                    
-                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
-                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="Кошик" Foreground="#1A1A1A" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
             </Grid>
         </Border>
 
         <ScrollViewer>
-            <Grid ColumnDefinitions="*, 400" Margin="80,40">
+            <Grid ColumnDefinitions="*, 280" Margin="30,40">
                 
                 <StackPanel Grid.Column="0" Spacing="20">
                     <TextBlock Text="Кошик (0)" 
                                FontSize="32" 
                                FontWeight="Bold" 
-                               Foreground="#1A1A1A"/> <Border Background="White" Height="200" CornerRadius="20" BoxShadow="0 5 15 0 #05000000">
+                               Foreground="#1A1A1A"/> 
+                    
+                    <Border Background="White" Height="200" CornerRadius="20" BoxShadow="0 5 15 0 #05000000">
                         <TextBlock Text="Тут поки порожньо..." 
                                    Foreground="#94A3B8" 
                                    HorizontalAlignment="Center" 
@@ -44,65 +34,56 @@
                 </StackPanel>
 
                 <Border Grid.Column="1" 
-                        Margin="40,0,0,0" 
+                        Margin="20,0,0,0" 
                         VerticalAlignment="Top" 
                         Background="White" 
                         CornerRadius="24" 
-                        Padding="30" 
+                        Padding="20" 
                         BoxShadow="0 10 30 0 #08000000">
-                    <StackPanel Spacing="20">
+                    <StackPanel Spacing="15">
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="Вартість страв" Foreground="#718096" FontSize="16"/>
-                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#1A202C" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock Text="Вартість страв" Foreground="#718096" FontSize="14"/>
+                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#1A202C" FontWeight="Bold" FontSize="14"/>
                         </Grid>
                         
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="Доставка" Foreground="#718096" FontSize="16"/>
-                            <TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock Text="Доставка" Foreground="#718096" FontSize="14"/>
+                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#10B981" FontWeight="Bold" FontSize="14"/>
                         </Grid>
 
-                        <Separator Height="1" Background="#F1F5F9" Margin="0,10"/>
+                        <Separator Height="1" Background="#F1F5F9" Margin="0,5"/>
 
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="До сплати" Foreground="#1A1A1A" FontWeight="Bold" FontSize="20"/>
-                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#5849E8" FontWeight="ExtraBold" FontSize="24"/>
+                            <TextBlock Text="До сплати" Foreground="#1A1A1A" FontWeight="Bold" FontSize="18"/>
+                            <TextBlock Grid.Column="1" Text="0 грн" Foreground="#5849E8" FontWeight="ExtraBold" FontSize="20"/>
                         </Grid>
 
                         <Button Content="Перейти до оплати" 
                                 Classes="checkoutBtn" 
                                 Margin="0,10,0,0"
-                                Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCheckoutCommand}"/>
+                                Command="{Binding $parent[Window].((vm:CartWindowViewModel)DataContext).NavigateToCheckoutCommand}"/>
                     </StackPanel>
                 </Border>
             </Grid>
         </ScrollViewer>
     </DockPanel>
 
-<UserControl.Styles>
-    <Style Selector="Button.navLink">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#4A5568"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-    </Style>
-    
-    <Style Selector="Button.navLink:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="#F1F5F9"/>
-        <Setter Property="Foreground" Value="#5849E8"/>
-    </Style>
-    
-    <Style Selector="Button.checkoutBtn">
-        <Setter Property="Background" Value="#1A202C"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Height" Value="55"/>
-        <Setter Property="CornerRadius" Value="15"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-    </Style>
+    <UserControl.Styles>
+        <Style Selector="Button.checkoutBtn">
+            <Setter Property="Background" Value="#1A202C"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="55"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
 
-    <Style Selector="Button.checkoutBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="#2D3748"/> <Setter Property="Foreground" Value="White"/>   </Style>
-</UserControl.Styles>
+        <Style Selector="Button.checkoutBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#2D3748"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Styles>
 </UserControl>

@@ -6,8 +6,9 @@ namespace ClientAppe.ViewModels
 {
     public class ProfileViewModel : ViewModelBase
     {
-        // Використовуємо об'єкт моделі, щоб відповідати біндингам у XAML
+        private readonly MainViewModel _mainViewModel; // Додаємо поле
         private UserModel _user;
+
         public UserModel User
         {
             get => _user;
@@ -15,42 +16,31 @@ namespace ClientAppe.ViewModels
             {
                 _user = value;
                 OnPropertyChanged();
-                // Повідомляємо, що ініціал теж змінився
                 OnPropertyChanged(nameof(UserInitial));
             }
         }
 
-        // Логіка для аватарки (перша літера логіна)
         public string UserInitial => !string.IsNullOrEmpty(User?.Login) ? User.Login[0].ToString().ToUpper() : "?";
 
-        // Команди
         public ICommand EditProfileCommand { get; }
         public ICommand SaveProfileCommand { get; }
         public ICommand LogoutCommand { get; }
 
-        public ProfileViewModel()
+        // ОНОВЛЕНИЙ КОНСТРУКТОР: тепер приймає MainViewModel
+        public ProfileViewModel(MainViewModel mainViewModel)
         {
-            // ЗАВАНТАЖЕННЯ ДАНИХ:
-            // Тепер ми не просто ставимо "Guest", а беремо дані з нашого Mock-сховища
+            _mainViewModel = mainViewModel;
+
             User = MockDataStorage.GetUserProfile();
 
-            EditProfileCommand = new RelayCommand(o =>
-            {
-                // Логіка редагування
-            });
-
-            SaveProfileCommand = new RelayCommand(o =>
-            {
-                // Логіка збереження
-            });
+            EditProfileCommand = new RelayCommand(o => { /* логіка */ });
+            SaveProfileCommand = new RelayCommand(o => { /* логіка */ });
 
             LogoutCommand = new RelayCommand(o =>
             {
-                // Логіка виходу (наприклад, перехід на AuthView)
-                if (o is MainViewModel mainVM)
-                {
-                    mainVM.CurrentViewModel = new AuthViewModel();
-                }
+                // ВИПРАВЛЕНО: передаємо посилання на головну модель в AuthViewModel
+                // Використовуємо NavigateTo з параметром false, щоб не можна було повернутися в профіль після виходу
+                _mainViewModel.NavigateTo(new AuthViewModel(_mainViewModel), false);
             });
         }
     }

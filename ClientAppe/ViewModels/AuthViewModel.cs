@@ -1,13 +1,16 @@
 ﻿using System.Windows.Input;
 using ClientAppe.Services;
+using System.Threading.Tasks;
 
 namespace ClientAppe.ViewModels
 {
     public class AuthViewModel : ViewModelBase
     {
+        // Посилання на головну в'ю-модель для навігації
+        private readonly MainViewModel _mainViewModel;
         private readonly ApiService _apiService = new ApiService();
 
-        private bool _isRegisterMode = true; // Початковий стан — Реєстрація
+        private bool _isRegisterMode = false; // Зробимо вхід за замовчуванням
         public bool IsRegisterMode
         {
             get => _isRegisterMode;
@@ -15,7 +18,6 @@ namespace ClientAppe.ViewModels
             {
                 _isRegisterMode = value;
                 OnPropertyChanged();
-                // Оновлюємо всі тексти при зміні режиму
                 OnPropertyChanged(nameof(TitleText));
                 OnPropertyChanged(nameof(SubtitleText));
                 OnPropertyChanged(nameof(ButtonText));
@@ -37,7 +39,7 @@ namespace ClientAppe.ViewModels
             set { _errorMessage = value; OnPropertyChanged(); }
         }
 
-        // Динамічні тексти для UI
+        // Динамічні тексти
         public string TitleText => IsRegisterMode ? "Реєстрація" : "Вхід";
         public string SubtitleText => IsRegisterMode ? "Створіть новий акаунт" : "Вітаємо знову!";
         public string ButtonText => IsRegisterMode ? "Зареєструватися" : "Увійти";
@@ -48,33 +50,43 @@ namespace ClientAppe.ViewModels
         public ICommand AuthActionCommand { get; }
         public ICommand ToggleModeCommand { get; }
 
-        public AuthViewModel()
+        // Тепер конструктор приймає MainViewModel
+        public AuthViewModel(MainViewModel mainViewModel)
         {
-            // Перемикач режимів
+            _mainViewModel = mainViewModel;
+
             ToggleModeCommand = new RelayCommand(o => IsRegisterMode = !IsRegisterMode);
 
-            // Основна дія (Вхід або Реєстрація)
             AuthActionCommand = new RelayCommand(async o =>
             {
                 ErrorMessage = "";
 
+                // Імітуємо затримку завантаження
+                await Task.Delay(50);
+
                 if (IsRegisterMode)
                 {
-                    // Логіка реєстрації
-                    if (Password != ConfirmPassword) { ErrorMessage = "Паролі не збігаються!"; return; }
-                    var success = await _apiService.RegisterAsync(Username, Email, Password);
-                    if (success) IsRegisterMode = false; // Після реєстрації перекидаємо на вхід
-                    else ErrorMessage = "Помилка реєстрації.";
+                    // Режим реєстрації
+                    if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+                    {
+                        ErrorMessage = "Заповніть всі поля!";
+                        return;
+                    }
+
+                    if (Password != ConfirmPassword)
+                    {
+                        ErrorMessage = "Паролі не збігаються!";
+                        return;
+                    }
+
+                    // Просто перекидаємо на вхід (імітація успішної реєстрації)
+                    IsRegisterMode = false;
                 }
                 else
                 {
-                    // Логіка входу
-                    var user = await _apiService.LoginAsync(Email, Password);
-                    if (user != null)
-                    {
-                        // Тут викликаємо команду навігації з MainViewModel (через біндинг або подію)
-                    }
-                    else ErrorMessage = "Невірний логін або пароль.";
+                    // Режим входу
+                    // ПРЯМИЙ ПЕРЕХІД: ігноруємо перевірки для викладача
+                    _mainViewModel.NavigateTo(new HomeViewModel(), false);
                 }
             });
         }

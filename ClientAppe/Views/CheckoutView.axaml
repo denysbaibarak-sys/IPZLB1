@@ -6,69 +6,67 @@
 
     <DockPanel Background="#F7F9FC">
         <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
-            <Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
+            <Grid Margin="30,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
                         <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
                     </Border>
                     <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
                 </StackPanel>
-                
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
-                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
-                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
-                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
-                    
-                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
-                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="Кошик" Foreground="#1A1A1A" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
             </Grid>
         </Border>
 
         <ScrollViewer>
-            <Grid ColumnDefinitions="*, 400" Margin="80,40" MaxWidth="1200" HorizontalAlignment="Center">
+            <Grid ColumnDefinitions="*, 300" Margin="30,40">
                 
-                <StackPanel Grid.Column="0" Margin="0,0,40,0" Spacing="30">
-                    <TextBlock Text="Оформлення замовлення" FontSize="32" FontWeight="Bold" Foreground="#1A1A1A"/>
+                <StackPanel Grid.Column="0" Margin="0,0,25,0" Spacing="30">
+                    <StackPanel Orientation="Horizontal" Spacing="20">
+                        <Border CornerRadius="20" BoxShadow="0 4 8 0 #10000000">
+                            <Button Classes="backBtn" 
+                                    Command="{Binding $parent[Window].((vm:CartWindowViewModel)DataContext).GoBackCommand}">
+                                <TextBlock Text="←" FontSize="20" FontWeight="Bold" Foreground="#5849E8" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                        </Border>
+                        <TextBlock Text="Оформлення" FontSize="28" FontWeight="Bold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                    </StackPanel>
 
-                    <Border Background="White" CornerRadius="20" Padding="30" BoxShadow="0 4 15 0 #08000000">
-                        <StackPanel Spacing="20">
+                    <Border Background="White" CornerRadius="20" Padding="25" BoxShadow="0 4 15 0 #08000000">
+                        <StackPanel Spacing="15">
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <TextBlock Text="📍" FontSize="18" VerticalAlignment="Center"/>
-                                <TextBlock Text="Адреса доставки" FontSize="18" FontWeight="Bold" Foreground="#1A1A1A"/>
+                                <TextBlock Text="Адреса доставки" FontSize="16" FontWeight="Bold" Foreground="#1A1A1A"/>
                             </StackPanel>
 
-                            <TextBox Text="{Binding StreetAddress}" Watermark="м. Київ, вул. Хрещатик, 1" Classes="checkoutInput"/>
+                            <TextBox Text="{Binding StreetAddress}" Watermark="вул. Хрещатик, 1" Classes="checkoutInput"/>
 
-                            <Grid ColumnDefinitions="*, *, 2*">
-                                <TextBox Grid.Column="0" Margin="0,0,15,0" Text="{Binding Entrance}" Watermark="Під'їзд" Classes="checkoutInput"/>
-                                <TextBox Grid.Column="1" Margin="0,0,15,0" Text="{Binding Floor}" Watermark="Поверх" Classes="checkoutInput"/>
-                                <TextBox Grid.Column="2" Text="{Binding Intercom}" Watermark="Кв/офіс" Classes="checkoutInput"/>
+                            <Grid ColumnDefinitions="*, *, *">
+                                <TextBox Grid.Column="0" Margin="0,0,10,0" Text="{Binding Entrance}" Watermark="Під'їзд" Classes="checkoutInput"/>
+                                <TextBox Grid.Column="1" Margin="0,0,10,0" Text="{Binding Floor}" Watermark="Поверх" Classes="checkoutInput"/>
+                                <TextBox Grid.Column="2" Text="{Binding Intercom}" Watermark="Кв." Classes="checkoutInput"/>
                             </Grid>
-
-                            <TextBox Text="{Binding CourierComment}" Watermark="Коментар для кур'єра" AcceptsReturn="True" Height="80" Classes="checkoutInput"/>
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" CornerRadius="20" Padding="30" BoxShadow="0 4 15 0 #08000000">
-                        <StackPanel Spacing="20">
+                    <Border Background="White" CornerRadius="20" Padding="25" BoxShadow="0 4 15 0 #08000000">
+                        <StackPanel Spacing="15">
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <TextBlock Text="💳" FontSize="18" VerticalAlignment="Center"/>
-                                <TextBlock Text="Спосіб оплати" FontSize="18" FontWeight="Bold" Foreground="#1A1A1A"/>
+                                <TextBlock Text="Спосіб оплати" FontSize="16" FontWeight="Bold" Foreground="#1A1A1A"/>
                             </StackPanel>
                             
-                            <ListBox ItemsSource="{Binding PaymentMethods}" SelectedItem="{Binding SelectedPaymentMethod}" Background="Transparent" BorderThickness="0">
+                            <ListBox ItemsSource="{Binding PaymentMethods}" 
+                                     SelectedItem="{Binding SelectedPaymentMethod}" 
+                                     Background="Transparent" 
+                                     BorderThickness="0"
+                                     FocusAdorner="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="15">
+                                        <Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="12">
                                             <Grid ColumnDefinitions="Auto, Auto, *">
                                                 <RadioButton IsChecked="{Binding $parent[ListBoxItem].IsSelected}" VerticalAlignment="Center"/>
-                                                <TextBlock Grid.Column="1" Text="{Binding Icon}" FontSize="20" Margin="15,0" VerticalAlignment="Center"/>
-                                                <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="16" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Icon}" FontSize="18" Margin="10,0" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="14" Foreground="#1A1A1A" VerticalAlignment="Center"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
@@ -78,44 +76,31 @@
                     </Border>
                 </StackPanel>
 
-                <Border Grid.Column="1" Background="White" CornerRadius="25" Padding="30" VerticalAlignment="Top" BoxShadow="0 10 30 0 #08000000">
-                    <StackPanel Spacing="25">
-                        <TextBlock Text="Ваше замовлення" FontSize="22" FontWeight="Bold" Foreground="#1A1A1A"/>
+                <Border Grid.Column="1" Background="White" CornerRadius="25" Padding="20" VerticalAlignment="Top" BoxShadow="0 10 30 0 #08000000">
+                    <StackPanel Spacing="20">
+                        <TextBlock Text="Підсумок" FontSize="20" FontWeight="Bold" Foreground="#1A1A1A"/>
                         
-                        <StackPanel Spacing="12">
+                        <StackPanel Spacing="10">
                             <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Піца Маргарита х1" Foreground="#64748B"/>
-                                <TextBlock Grid.Column="1" Text="190 грн" Foreground="#1A1A1A" FontWeight="Medium"/>
+                                <TextBlock Text="Страви" Foreground="#64748B" FontSize="13"/>
+                                <TextBlock Grid.Column="1" Text="275 грн" Foreground="#1A1A1A" FontWeight="Medium" FontSize="13"/>
                             </Grid>
                             <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Борщ український х1" Foreground="#64748B"/>
-                                <TextBlock Grid.Column="1" Text="85 грн" Foreground="#1A1A1A" FontWeight="Medium"/>
-                            </Grid>
-                        </StackPanel>
-
-                        <Separator Background="#F1F5F9" Height="1"/>
-
-                        <StackPanel Spacing="15">
-                            <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Вартість страв" Foreground="#64748B"/>
-                                <TextBlock Grid.Column="1" Text="275 грн" Foreground="#1A1A1A" FontWeight="Bold"/>
-                            </Grid>
-                            <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Доставка" Foreground="#64748B"/>
-                                <TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="Доставка" Foreground="#64748B" FontSize="13"/>
+                                <TextBlock Grid.Column="1" Text="0 грн" Foreground="#10B981" FontWeight="Bold" FontSize="13"/>
                             </Grid>
                         </StackPanel>
 
                         <Separator Background="#F1F5F9" Height="1"/>
 
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="До сплати" FontSize="20" FontWeight="Bold" Foreground="#1A1A1A"/>
-                            <TextBlock Grid.Column="1" Text="275 грн" FontSize="20" FontWeight="ExtraBold" Foreground="#5849E8"/>
+                            <TextBlock Text="Разом" FontSize="18" FontWeight="Bold" Foreground="#1A1A1A"/>
+                            <TextBlock Grid.Column="1" Text="275 грн" FontSize="18" FontWeight="ExtraBold" Foreground="#5849E8"/>
                         </Grid>
 
-                        <Button Content="✔️ Оформити замовлення" 
-                                Classes="orderBtn"
-                                Command="{Binding ConfirmOrderCommand}"/>
+<Button Content="✔️ Оформити замовлення" 
+        Classes="orderBtn"
+        Command="{Binding $parent[Window].((vm:CartWindowViewModel)DataContext).ConfirmOrderCommand}"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -127,39 +112,42 @@
             <Setter Property="Background" Value="#F8FAFC"/>
             <Setter Property="Foreground" Value="#1A1A1A"/>
             <Setter Property="BorderBrush" Value="#E2E8F0"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="12,8"/>
         </Style>
 
-        <Style Selector="Button.navLink">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#64748B"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-        <Style Selector="Button.navLink:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#F1F5F9"/>
-            <Setter Property="Foreground" Value="#5849E8"/>
-        </Style>
-
-        <Style Selector="Button.orderBtn">
-            <Setter Property="Background" Value="#0F172A"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Height" Value="60"/>
-            <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
+<Style Selector="Button.orderBtn">
+        <Setter Property="Background" Value="#0F172A"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
         <Style Selector="Button.orderBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#1E293B"/>
-            <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#1E293B"/>
+        <Setter Property="Foreground" Value="White"/> 
+    </Style>
+        <Style Selector="Button.backBtn">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
         </Style>
-        
+
         <Style Selector="ListBoxItem:selected Border">
             <Setter Property="BorderBrush" Value="#5849E8"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Background" Value="#EEF2FF"/>
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
     </UserControl.Styles>
 </UserControl>

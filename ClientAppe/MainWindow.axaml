@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ClientAppe.ViewModels"
         xmlns:local="using:ClientAppe.Views"
@@ -11,5 +11,69 @@
         <vm:MainViewModel/>
     </Design.DataContext>
 
-    <ContentControl Content="{Binding CurrentViewModel}" />
+    <Panel>
+        <ContentControl Content="{Binding CurrentViewModel}" />
+
+        <Border IsVisible="{Binding IsSuccessMessageVisible}"
+                Background="#CC000000"
+                ZIndex="100">
+            
+            <Border Background="White" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    Padding="40" 
+                    CornerRadius="30"
+                    Width="450"
+                    BoxShadow="0 15 50 0 #60000000">
+                
+                <StackPanel Spacing="25" HorizontalAlignment="Center">
+                  
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Замовлення прийнято!" 
+                                   FontSize="28" 
+                                   FontWeight="ExtraBold" 
+                                   Foreground="#1A1A1A"
+                                   HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Text="Дякуємо! Слідкуйте за статусом у розділі 'Замовлення'" 
+                                   Foreground="#64748B"
+                                   FontSize="16"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <Button Content="Зрозуміло"
+                            Classes="successBtn"
+                            Command="{Binding CloseSuccessMessageCommand}"
+                            Background="#5849E8"
+                            Foreground="White"
+                            Height="60"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            CornerRadius="15"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Cursor="Hand"/>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Panel>
+    <Window.Styles>
+    <Style Selector="Button.successBtn">
+        <Setter Property="Background" Value="#5849E8"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style Selector="Button.successBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#4739C9"/> <Setter Property="Foreground" Value="White"/>    </Style>
+</Window.Styles>
 </Window>
