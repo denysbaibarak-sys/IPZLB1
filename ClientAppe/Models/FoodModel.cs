@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 
 namespace ClientAppe.Models
 {
-    // Обов'язково додаємо INotifyPropertyChanged
     public class FoodModel : INotifyPropertyChanged
     {
         public int Id { get; set; }
@@ -18,20 +17,18 @@ namespace ClientAppe.Models
             get => _quantity;
             set
             {
-                if (_quantity != value) // перевірка, щоб не робити зайвої роботи
+                if (_quantity != value)
                 {
                     _quantity = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(IsInCart));
                     OnPropertyChanged(nameof(IsNotInCart));
 
-                    // 🌟 ДОДАЄМО ЦЕ: Кажемо екрану оновити ціну за кілька штук
                     OnPropertyChanged(nameof(TotalItemPrice));
                 }
             }
         }
         public decimal TotalItemPrice => Price * Quantity > 0 ? Price * Quantity : Price;
-        // Ці властивості керуватимуть тим, яку кнопку показувати!
         public bool IsInCart => Quantity > 0;
         public bool IsNotInCart => Quantity == 0;
 

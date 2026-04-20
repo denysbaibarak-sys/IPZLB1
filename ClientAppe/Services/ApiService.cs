@@ -10,21 +10,15 @@ namespace ClientAppe.Services
 {
     public class ApiService
     {
-        private readonly HttpClient _httpClient;
-
+        private static readonly HttpClient _httpClient = new HttpClient()
+        {
+            BaseAddress = new Uri("https://localhost:44333/api/")
+        };
         // Змінна для зберігання глобального профілю користувача після логіну
         public static UserModel CurrentUser { get; set; }
 
-        public ApiService()
-        {
-            _httpClient = new HttpClient();
-            // Зверни увагу: переконайся, що порт 44333 правильний!
-            _httpClient.BaseAddress = new Uri("https://localhost:44333/api/");
-        }
+        public ApiService(){}
 
-        // ==========================================
-        // РЕСТОРАНИ ТА МЕНЮ (Реальні дані)
-        // ==========================================
         public async Task<List<RestaurantModel>> GetRestaurantsAsync()
         {
             try
@@ -48,9 +42,6 @@ namespace ClientAppe.Services
             }
         }
 
-        // ==========================================
-        // ЗАМОВЛЕННЯ (Реальні дані)
-        // ==========================================
         public async Task<bool> CreateOrderAsync(OrderModel order)
         {
             try
@@ -73,7 +64,6 @@ namespace ClientAppe.Services
         {
             try
             {
-                // Робимо справжній запит до сервера
                 HttpResponseMessage response = await _httpClient.GetAsync("orders");
 
                 if (response.IsSuccessStatusCode)
@@ -90,9 +80,6 @@ namespace ClientAppe.Services
             }
         }
 
-        // ==========================================
-        // АВТОРИЗАЦІЯ (Реальні дані)
-        // ==========================================
         public async Task<bool> LoginAsync(string email, string password)
         {
             try
@@ -105,11 +92,12 @@ namespace ClientAppe.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // Сервер тепер повертає повного юзера, зберігаємо його глобально!
                     string jsonResponse = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                     CurrentUser = JsonSerializer.Deserialize<UserModel>(jsonResponse, options);
 
+                    _httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", CurrentUser.Token);
                     return true;
                 }
                 return false;
@@ -145,8 +133,6 @@ namespace ClientAppe.Services
                         CurrentUser.Login = updatedUser.Login;
                         CurrentUser.Phone = updatedUser.Phone;
 
-                        // Ми не зберігаємо пароль локально в CurrentUser з міркувань безпеки, 
-                        // але на сервері він вже оновився.
                     }
                     return true;
                 }

@@ -48,7 +48,6 @@ namespace ClientAppe.ViewModels
         public void NavigateToCheckout()
         {
             _history.Push(CurrentView);
-            // Передаємо сервіс і це вікно у Checkout, щоб він міг викликати ConfirmOrderCommand
             CurrentView = new CheckoutViewModel(_cartService, this);
         }
 
@@ -57,34 +56,32 @@ namespace ClientAppe.ViewModels
         {
             if (_cartService.Items.Count == 0) return;
 
-            // 1. Формуємо об'єкт замовлення так, як цього чекає сервер
             var newOrder = new OrderModel
             {
+                RestaurantId = _cartService.CurrentRestaurantId,
+
                 OrderedItems = _cartService.Items.ToList(),
-                TotalPrice = (double)_cartService.GetTotal(), // Приводимо до double (або decimal, залежно від моделі)
+
+                TotalPrice = (double)_cartService.GetTotal(),
+
                 DeliveryAddress = string.IsNullOrWhiteSpace(deliveryAddress) ? "Самовивіз" : deliveryAddress,
-                RestaurantName = "Доставка їжі", // Можна динамічно брати з обраних страв
-                OrderDate = DateTime.Now.ToString("dd.MM.yyyy HH:mm")
+
             };
 
-            // 2. Магія! Відправляємо JSON на сервер
             bool success = await _apiService.CreateOrderAsync(newOrder);
 
             if (success)
             {
-                // 3. Сервер прийняв замовлення. Очищаємо кошик!
-                _cartService.ClearCart(); // Якщо такого методу немає в CartService, доведеться додати `Items.Clear();`
+                _cartService.Items.Clear();
+                _cartService.CurrentRestaurantId = 0;
 
-                // 4. Закриваємо вікно кошика
                 RequestClose?.Invoke();
 
-                // 5. Кажемо головному вікну: "Усе супер, покажи статус замовлення!"
                 _onSuccessCallback?.Invoke();
             }
             else
             {
-                // Тут можна додати вивід помилки в UI, але для початку достатньо логу
-                System.Diagnostics.Debug.WriteLine("Помилка сервера: Замовлення не створено.");
+                System.Diagnostics.Debug.WriteLine("Помилка: Сервер відхилив замовлення.");
             }
         }
     }

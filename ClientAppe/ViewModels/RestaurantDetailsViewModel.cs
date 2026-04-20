@@ -82,6 +82,7 @@ namespace ClientAppe.ViewModels
             {
                 if (item is FoodModel food)
                 {
+                    _cartService.CurrentRestaurantId = this.Restaurant.Id;
                     _cartService.AddToCart(food);
 
                     // СИНХРОНІЗАЦІЯ З ЕКРАНОМ: після додавання оновлюємо цифру

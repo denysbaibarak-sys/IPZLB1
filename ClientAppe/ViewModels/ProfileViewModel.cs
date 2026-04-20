@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using ClientAppe.Models;
 using ClientAppe.Services;
+using System.Text.RegularExpressions;
 
 namespace ClientAppe.ViewModels
 {
@@ -44,8 +45,13 @@ namespace ClientAppe.ViewModels
             get => _editPassword;
             set { _editPassword = value; OnPropertyChanged(); }
         }
-        // ------------------------------
 
+        private string _phoneError;
+        public string PhoneError
+        {
+            get => _phoneError;
+            set { _phoneError = value; OnPropertyChanged(); }
+        }
         public string UserInitial => !string.IsNullOrEmpty(User?.Login) ? User.Login[0].ToString().ToUpper() : "?";
 
         public ICommand EditProfileCommand { get; }
@@ -71,12 +77,21 @@ namespace ClientAppe.ViewModels
 
             // 3. Зберігаємо
             SaveProfileCommand = new RelayCommand(async o => {
+                string phonePattern = @"^\+?[0-9]{10,12}$";
+
+                if (!Regex.IsMatch(EditPhone, phonePattern))
+                {
+                    
+                    System.Diagnostics.Debug.WriteLine("Неправильний формат номера!");
+                    return; // Зупиняємо збереження
+                }
                 var updatedUser = new UserModel
                 {
                     Id = User.Id,
                     Login = EditLogin,
                     Phone = EditPhone,
-                    Password = EditPassword
+                    Password = EditPassword,
+                    Token = ApiService.CurrentUser.Token
                 };
 
                 bool success = await _apiService.UpdateProfileAsync(updatedUser);

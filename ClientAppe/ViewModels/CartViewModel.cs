@@ -18,6 +18,7 @@ namespace ClientAppe.ViewModels
         public decimal TotalCost => ItemsCost;
         public string ItemsCountText => $"Кошик ({CartItems.Count})";
 
+
         // ДОДАНО: властивість для перевірки, чи порожній кошик (щоб ховати/показувати кнопку оплати)
         public bool IsCartEmpty => CartItems.Count == 0;
 
@@ -31,7 +32,6 @@ namespace ClientAppe.ViewModels
             _cartService = cartService;
             _windowViewModel = windowViewModel;
 
-            // ПІДПИСКА НА ПОДІЮ: коли кошик змінюється (навіть з меню), просто оновлюємо всі цифри!
             _cartService.CartUpdated += () =>
             {
                 RefreshTotals();
@@ -42,28 +42,23 @@ namespace ClientAppe.ViewModels
             {
                 if (item is FoodModel food)
                 {
-                    // Робимо кількість 0, щоб сервіс точно викинув страву
                     food.Quantity = 0;
                     _cartService.RemoveFromCart(food);
                 }
             });
 
-            // ЛОГІКА ПЛЮСА (Тепер дуже коротка!)
             IncreaseQuantityCommand = new RelayCommand(item =>
             {
                 if (item is FoodModel food)
                 {
-                    // Сервіс сам зробить +1 і викличе CartUpdated
                     _cartService.AddToCart(food);
                 }
             });
 
-            // ЛОГІКА МІНУСА (Тепер дуже коротка!)
             DecreaseQuantityCommand = new RelayCommand(item =>
             {
                 if (item is FoodModel food)
                 {
-                    // Сервіс сам зробить -1, а якщо стане 0 - сам видалить і викличе CartUpdated
                     _cartService.RemoveFromCart(food);
                 }
             });
@@ -85,7 +80,7 @@ namespace ClientAppe.ViewModels
             OnPropertyChanged(nameof(TotalCost));
             OnPropertyChanged(nameof(ItemsCountText));
             OnPropertyChanged(nameof(CartItems));
-            OnPropertyChanged(nameof(IsCartEmpty)); // Виправляємо помилку IsCartEmpty
+            OnPropertyChanged(nameof(IsCartEmpty));
         }
     }
 }

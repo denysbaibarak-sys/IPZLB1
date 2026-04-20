@@ -4,10 +4,9 @@ namespace ClientAppe.Models
 {
     public class RestaurantModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-
-        // Додаємо ці поля для нашого нового дизайну
         public double Rating { get; set; }
         public string DeliveryTime { get; set; }
         public string Category { get; set; }

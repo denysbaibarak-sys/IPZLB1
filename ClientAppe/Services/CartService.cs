@@ -8,7 +8,7 @@ namespace ClientAppe.Services
     public class CartService
     {
         public ObservableCollection<FoodModel> Items { get; } = new ObservableCollection<FoodModel>();
-
+        public int CurrentRestaurantId { get; set; }
         public event Action CartUpdated;
 
         public void AddToCart(FoodModel food)
