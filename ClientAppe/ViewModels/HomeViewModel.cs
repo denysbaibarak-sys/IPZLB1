@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
-// ПРИБРАЛИ using System.Windows; — він тут зайвий і шкідливий
 
 namespace ClientAppe.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
+        // ДОДАНО: посилання на головну модель для навігації
+        private readonly MainViewModel _mainViewModel;
+
         private string _deliveryAddress;
         public string DeliveryAddress
         {
@@ -13,7 +15,6 @@ namespace ClientAppe.ViewModels
             set { _deliveryAddress = value; OnPropertyChanged(); }
         }
 
-        // Властивість для виводу повідомлень в інтерфейс (замість MessageBox)
         private string _statusMessage;
         public string StatusMessage
         {
@@ -24,21 +25,24 @@ namespace ClientAppe.ViewModels
         public ICommand SelectCategoryCommand { get; }
         public ICommand OpenMapCommand { get; }
 
-        public HomeViewModel()
+        // ВИПРАВЛЕНО: тепер конструктор приймає MainViewModel
+        public HomeViewModel(MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
             DeliveryAddress = "м. Київ, вул. Хрещатик, 1";
 
             SelectCategoryCommand = new RelayCommand(category =>
             {
-                // Замість MessageBox просто оновлюємо статус
-                StatusMessage = $"Обрано категорію: {category}. Переходимо до списку ресторанів...";
+                StatusMessage = $"Переходимо до закладів: {category}...";
 
-                // В ЛБ 4 тут буде виклик: MainViewModel.Instance.CurrentView = new RestaurantsViewModel();
+                // РЕАЛЬНИЙ ПЕРЕХІД: Відкриваємо сторінку ресторанів!
+                // Передаємо _mainViewModel далі, щоб з ресторанів можна було йти ще далі
+                _mainViewModel.NavigateTo(new RestaurantsViewModel(_mainViewModel), true);
             });
 
             OpenMapCommand = new RelayCommand(o =>
             {
-                StatusMessage = "Відкриття карти...";
+                StatusMessage = "Відкриття карти..."; // Можна залишити як заглушку
             });
         }
     }

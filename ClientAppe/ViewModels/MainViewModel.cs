@@ -42,7 +42,7 @@ namespace ClientAppe.ViewModels
         public MainViewModel()
         {
             // Ініціалізація команд
-            NavigateToHomeCommand = new RelayCommand(o => NavigateTo(new HomeViewModel()));
+            NavigateToHomeCommand = new RelayCommand(o => NavigateTo(new HomeViewModel(this)));
             NavigateToAuthCommand = new RelayCommand(o => NavigateTo(new AuthViewModel(this)));
 
             // Для ресторанів передаємо посилання на MainViewModel (this), щоб працював перехід в деталі
@@ -57,7 +57,12 @@ namespace ClientAppe.ViewModels
             GoBackCommand = new RelayCommand(o => GoBack());
             CloseSuccessMessageCommand = new RelayCommand(o => IsSuccessMessageVisible = false);
 
-            // Стартуємо з головної сторінки
+            NavigateToRestaurantsCommand = new RelayCommand(param =>
+            {
+                string category = param as string ?? "Всі заклади";
+                NavigateTo(new RestaurantsViewModel(this, category));
+            });
+            // Стартуємо з форми авторизації
             NavigateTo(new AuthViewModel(this), false);
         }
 
@@ -89,7 +94,7 @@ namespace ClientAppe.ViewModels
         {
             if (restaurant != null)
             {
-                NavigateTo(new RestaurantDetailsViewModel(this, restaurant));
+                NavigateTo(new RestaurantDetailsViewModel(this, restaurant, _cartService)); // Додав _cartService, якщо раптом ти з меню щось додаєш в кошик
             }
         }
 
@@ -124,11 +129,9 @@ namespace ClientAppe.ViewModels
             // Показуємо наш кастомний Overlay (MainWindow.axaml)
             IsSuccessMessageVisible = true;
 
-            // Очищуємо кошик через сервіс
-            _cartService.ClearCart();
-
             // Повертаємо головне вікно на головну сторінку
-            NavigateTo(new HomeViewModel(), false);
+            // ВИПРАВЛЕНО: Передаємо this
+            NavigateTo(new HomeViewModel(this), false);
 
             // Очищуємо історію навігації головного вікна, щоб "Назад" не вела до оформлення
             _history.Clear();

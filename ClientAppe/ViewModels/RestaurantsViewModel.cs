@@ -3,6 +3,8 @@ using ClientAppe.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ClientAppe.ViewModels
 {
@@ -10,6 +12,9 @@ namespace ClientAppe.ViewModels
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly MainViewModel _mainViewModel;
+
+        // Зберігаємо ПОВНИЙ список ресторанів
+        private List<RestaurantModel> _allRestaurants = new List<RestaurantModel>();
 
         private ObservableCollection<RestaurantModel> _restaurants;
         public ObservableCollection<RestaurantModel> Restaurants
@@ -25,39 +30,97 @@ namespace ClientAppe.ViewModels
             set { _foundCountText = value; OnPropertyChanged(); }
         }
 
-        // Команди обов'язково мають бути public
+        // Зберігаємо назву активного фільтра
+        private string _activeFilter = "Всі заклади";
+        public string ActiveFilter
+        {
+            get => _activeFilter;
+            set { _activeFilter = value; OnPropertyChanged(); }
+        }
+
+        // Зберігаємо назву активного сортування
+        private string _activeSort = "Популярні";
+        public string ActiveSort
+        {
+            get => _activeSort;
+            set { _activeSort = value; OnPropertyChanged(); }
+        }
+
         public ICommand FilterCategoryCommand { get; }
         public ICommand SortCommand { get; }
         public ICommand NavigateToDetailsCommand { get; }
 
-        public RestaurantsViewModel(MainViewModel mainVM)
+        public RestaurantsViewModel(MainViewModel mainVM, string initialCategory = "Всі заклади")
         {
             _mainViewModel = mainVM ?? throw new ArgumentNullException(nameof(mainVM));
 
-            // Ініціалізуємо команди відразу
+            // Просто зберігаємо передану категорію
+            ActiveFilter = initialCategory;
+            ActiveSort = "Rating";
+
+            // КОМАНДА ФІЛЬТРАЦІЇ
             FilterCategoryCommand = new RelayCommand(category =>
             {
-                // Тут буде фільтрація в ЛБ 4
-                Console.WriteLine($"Фільтр: {category}");
+                if (category is string catStr)
+                {
+                    ActiveFilter = catStr;
+                    ApplyFiltersAndSort();
+                }
             });
 
+            // КОМАНДА СОРТУВАННЯ
             SortCommand = new RelayCommand(sortType =>
             {
-                // Тут буде сортування в ЛБ 4
-                Console.WriteLine($"Сортування: {sortType}");
+                if (sortType is string sortStr)
+                {
+                    ActiveSort = sortStr;
+                    ApplyFiltersAndSort();
+                }
             });
 
-            // Ця команда відповідає за клік по картці
+            // КОМАНДА НАВІГАЦІЇ
             NavigateToDetailsCommand = new RelayCommand(param =>
             {
-                // Перевіряємо, що прийшов саме об'єкт ресторану
                 if (param is RestaurantModel selected)
                 {
                     _mainViewModel.NavigateToDetails(selected);
                 }
             });
 
+            // Не забуваємо завантажити дані!
             LoadData();
+        }
+
+        // --- ГОЛОВНИЙ МЕТОД: Робить і фільтрацію, і сортування одночасно ---
+        private void ApplyFiltersAndSort()
+        {
+            // Беремо всі ресторани як початкову точку
+            var result = _allRestaurants.AsEnumerable();
+
+            // 1. ЗАСТОСОВУЄМО ФІЛЬТР (виправлено умову і додано ToLower)
+            if (ActiveFilter != "Всі заклади")
+            {
+                // Тепер ми шукаємо точний збіг по Категорії, ігноруючи регістр і зайві пробіли
+                result = result.Where(r =>
+                    r.Category != null &&
+                    r.Category.Trim().ToLower() == ActiveFilter.Trim().ToLower()
+                );
+            }
+
+            // 2. ЗАСТОСОВУЄМО СОРТУВАННЯ до вже відфільтрованого списку
+            if (ActiveSort == "Rating")
+            {
+                result = result.OrderByDescending(r => r.Rating);
+            }
+            else if (ActiveSort == "Fastest")
+            {
+                result = result.OrderBy(r => r.DeliveryTime);
+            }
+
+            // 3. ОНОВЛЮЄМО ЕКРАН
+            var finalFilteredList = result.ToList();
+            Restaurants = new ObservableCollection<RestaurantModel>(finalFilteredList);
+            FoundCountText = $"Знайдено {Restaurants.Count} закладів";
         }
 
         private async void LoadData()
@@ -67,8 +130,8 @@ namespace ClientAppe.ViewModels
                 var data = await _apiService.GetRestaurantsAsync();
                 if (data != null)
                 {
-                    Restaurants = new ObservableCollection<RestaurantModel>(data);
-                    FoundCountText = $"Знайдено {Restaurants.Count} закладів";
+                    _allRestaurants = data;
+                    ApplyFiltersAndSort(); // Викликаємо при завантаженні, щоб застосувати стандартні налаштування
                 }
             }
             catch (Exception ex)

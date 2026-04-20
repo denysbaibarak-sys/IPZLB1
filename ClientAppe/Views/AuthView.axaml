@@ -5,38 +5,43 @@
              x:DataType="vm:AuthViewModel">
 
     <Grid Background="#F0F4F8">
-        <Border Background="White" CornerRadius="15" MinWidth="350" MaxWidth="450" Margin="20"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
+        <Border Background="White"
+                CornerRadius="15" 
+                MinWidth="350" 
+                MaxWidth="450" 
+                Margin="20"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
                 BoxShadow="0 10 30 0 #20000000">
 
-            <StackPanel Margin="30">
+<StackPanel Margin="30">
                 <TextBlock Text="{Binding TitleText}" FontSize="28" FontWeight="Bold"
                            HorizontalAlignment="Center" Foreground="#1A1A1A"/>
                 
                 <TextBlock Text="{Binding SubtitleText}" FontSize="14" Foreground="#757575"
                            HorizontalAlignment="Center" Margin="0,5,0,25"/>
 
-                <StackPanel IsVisible="{Binding IsRegisterMode}">
-                    <TextBlock Text="Ім'я користувача" Margin="0,10,0,5" FontWeight="Medium" FontSize="13"/>
-                    <TextBox Text="{Binding Username}" Watermark="username" Height="45"
-                             CornerRadius="8" VerticalContentAlignment="Center"/>
-                </StackPanel>
-
-                <TextBlock Text="Електронна пошта" Margin="0,15,0,5" FontWeight="Medium" FontSize="13"/>
-                <TextBox Text="{Binding Email}" Watermark="example@email.com" Height="45"
-                         CornerRadius="8" VerticalContentAlignment="Center"/>
-
-                <TextBlock Text="Пароль" Margin="0,15,0,5" FontWeight="Medium" FontSize="13"/>
-                <TextBox Text="{Binding Password}" PasswordChar="●" Watermark="........" Height="45"
+                <TextBlock Text="Ім'я користувача" Margin="0,10,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
+                <TextBox Text="{Binding Username, Mode=TwoWay}" Watermark="username" Height="45"
                          CornerRadius="8" VerticalContentAlignment="Center"/>
 
                 <StackPanel IsVisible="{Binding IsRegisterMode}">
-                    <TextBlock Text="Підтвердити пароль" Margin="0,15,0,5" FontWeight="Medium" FontSize="13"/>
-                    <TextBox Text="{Binding ConfirmPassword}" PasswordChar="●" Watermark="........" Height="45"
+                    <TextBlock Text="Електронна пошта" Margin="0,15,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
+                    <TextBox Text="{Binding Email, Mode=TwoWay}" Watermark="example@email.com" Height="45"
                              CornerRadius="8" VerticalContentAlignment="Center"/>
                 </StackPanel>
 
-                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="12"
+                <TextBlock Text="Пароль" Margin="0,15,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
+                <TextBox Text="{Binding Password, Mode=TwoWay}" PasswordChar="●" Watermark="........" Height="45"
+                         CornerRadius="8" VerticalContentAlignment="Center"/>
+
+                <StackPanel IsVisible="{Binding IsRegisterMode}">
+                    <TextBlock Text="Підтвердити пароль" Margin="0,15,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
+                    <TextBox Text="{Binding ConfirmPassword, Mode=TwoWay}" PasswordChar="●" Watermark="........" Height="45"
+                             CornerRadius="8" VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Black" FontSize="12"
                            Margin="0,10,0,0" HorizontalAlignment="Center" TextWrapping="Wrap"/>
 
                 <Button Command="{Binding AuthActionCommand}"
@@ -55,8 +60,7 @@
                             Background="Transparent" Foreground="#5849E8" 
                             Padding="0" BorderThickness="0" Cursor="Hand"/>
                 </StackPanel>
-            </StackPanel>
-        </Border>
+            </StackPanel>        </Border>
     </Grid>
     <UserControl.Styles>
     <Style Selector="Button.loginBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">

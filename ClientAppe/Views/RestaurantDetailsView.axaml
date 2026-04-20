@@ -80,13 +80,15 @@
                             <StackPanel Orientation="Horizontal" Spacing="15"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Classes="categoryTab">
-                                <TextBlock Text="{Binding}" Foreground="#1A202C" FontWeight="SemiBold"/>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+<ItemsControl.ItemTemplate>
+    <DataTemplate>
+        <Button Classes="categoryTab"
+                Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).SelectCategoryCommand}"
+                CommandParameter="{Binding}">
+            <TextBlock Text="{Binding}" Foreground="#1A202C" FontWeight="SemiBold"/>
+        </Button>
+    </DataTemplate>
+</ItemsControl.ItemTemplate>
                 </ItemsControl>
 
                 <ItemsControl ItemsSource="{Binding MenuItems}" Margin="60,20">
@@ -113,12 +115,24 @@
                                                 <TextBlock Text=" грн" FontSize="22" FontWeight="ExtraBold" Foreground="#5849E8"/>
                                             </StackPanel>
 
-                                            <Button Grid.Column="1" 
-                                                    Content="+ Додати" 
-                                                    Classes="addBtn"
-                                                    Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).AddToCartCommand}"
-                                                    CommandParameter="{Binding}"/>
-                                        </Grid>
+<Panel Grid.Column="1" VerticalAlignment="Center">
+    <Button Content="+ Додати" Classes="addBtn"
+            IsVisible="{Binding IsNotInCart}"
+            Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).AddToCartCommand}"
+            CommandParameter="{Binding}"/>
+
+    <Grid ColumnDefinitions="Auto, Auto, Auto" IsVisible="{Binding IsInCart}">
+        <Button Grid.Column="0" Content="-" Classes="counterBtn"
+                Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).RemoveFromCartCommand}" 
+                CommandParameter="{Binding}"/>
+        
+        <TextBlock Grid.Column="1" Text="{Binding Quantity}" Foreground="#1A1A1A" Margin="10,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+        
+        <Button Grid.Column="2" Content="+" Classes="counterBtn"
+                Command="{Binding $parent[UserControl].((vm:RestaurantDetailsViewModel)DataContext).AddToCartCommand}" 
+                CommandParameter="{Binding}"/>
+    </Grid>
+</Panel>                                    </Grid>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
@@ -173,5 +187,18 @@
             <Setter Property="Background" Value="#F8FAFC"/>
             <Setter Property="BorderBrush" Value="#5849E8"/>
         </Style>
+        <Style Selector="Button.counterBtn">
+            <Setter Property="Width" Value="32"/> <Setter Property="Height" Value="32"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="#1A1A1A"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="Button.counterBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E2E8F0"/> 
+            <Setter Property="Foreground" Value="#1A1A1A"/> </Style>
     </UserControl.Styles>
 </UserControl>

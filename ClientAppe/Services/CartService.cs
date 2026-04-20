@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using ClientAppe.Models;
 
@@ -6,31 +7,58 @@ namespace ClientAppe.Services
 {
     public class CartService
     {
-        // Список страв у кошику (ObservableCollection, щоб UI бачив зміни автоматично)
         public ObservableCollection<FoodModel> Items { get; } = new ObservableCollection<FoodModel>();
 
-        // Додати страву
+        public event Action CartUpdated;
+
         public void AddToCart(FoodModel food)
         {
-            Items.Add(food);
+            var existingItem = Items.FirstOrDefault(x => x.Name == food.Name);
+
+            if (existingItem != null)
+            {
+                existingItem.Quantity++;
+            }
+            else
+            {
+                food.Quantity = 1;
+                Items.Add(food);
+            }
+
+            // 🌟 ВИКЛИКАЄМО ПОДІЮ: Сповіщаємо, що додали страву
+            CartUpdated?.Invoke();
         }
 
-        // Видалити страву
         public void RemoveFromCart(FoodModel food)
         {
-            Items.Remove(food);
+            var existingItem = Items.FirstOrDefault(x => x.Name == food.Name);
+
+            if (existingItem != null)
+            {
+                existingItem.Quantity--;
+
+                if (existingItem.Quantity <= 0)
+                {
+                    existingItem.Quantity = 0;
+                    Items.Remove(existingItem);
+                }
+            }
+
+            // 🌟 ВИКЛИКАЄМО ПОДІЮ: Сповіщаємо, що прибрали страву
+            CartUpdated?.Invoke();
         }
 
-        // Очистити кошик
         public void ClearCart()
         {
             Items.Clear();
+
+            // 🌟 ВИКЛИКАЄМО ПОДІЮ: Сповіщаємо, що кошик повністю очистили
+            CartUpdated?.Invoke();
         }
 
-        // Порахувати загальну суму
         public decimal GetTotal()
         {
-            return Items.Sum(x => x.Price);
+            return Items.Sum(x => x.Price * (decimal)x.Quantity);
         }
     }
 }

@@ -44,24 +44,28 @@
             </Grid>
         </Border>
 
-        <ScrollViewer>
+<ScrollViewer>
             <StackPanel Margin="40" Spacing="50">
                 <TextBlock Text="Оберіть категорію закладу" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#1E293B"/>
 
                 <UniformGrid Columns="3" HorizontalAlignment="Center" MaxWidth="1100">
-                    <Border Classes="cardHolder" Background="{StaticResource RestaurantGrad}">
-                        <Button Classes="categoryCard" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}">
+<Border Classes="cardHolder" Background="{StaticResource RestaurantGrad}">
+                        <Button Classes="categoryCard" 
+                                Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}" 
+                                CommandParameter="Ресторани">
                             <StackPanel Spacing="20">
                                 <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF">
                                     <TextBlock Text="🍴" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/> 
                                 </Border>
-                                <TextBlock Text="Ресторан" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Ресторани" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Border>
 
                     <Border Classes="cardHolder" Background="{StaticResource FastFoodGrad}">
-                        <Button Classes="categoryCard">
+                        <Button Classes="categoryCard"
+                                Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}" 
+                                CommandParameter="Фаст-фуд">
                             <StackPanel Spacing="20">
                                 <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF">
                                     <TextBlock Text="🍔" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -70,9 +74,10 @@
                             </StackPanel>
                         </Button>
                     </Border>
-
                     <Border Classes="cardHolder" Background="{StaticResource OtherGrad}">
-                        <Button Classes="categoryCard">
+                        <Button Classes="categoryCard"
+                                Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}" 
+                                CommandParameter="Інше">
                             <StackPanel Spacing="20">
                                 <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF">
                                     <TextBlock Text="✨" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -99,7 +104,15 @@
                                 <PathIcon Data="{StaticResource location_regular}" Foreground="#94A3B8" Width="18" HorizontalAlignment="Left" Margin="18,0,0,0"/>
                             </Grid>
 
-                            <Button Content="Вибрати на карті" Classes="primaryBtn"/>
+                            <Button Content="Вибрати на карті" 
+                                    Classes="primaryBtn"
+                                    Command="{Binding OpenMapCommand}"/>
+
+                            <TextBlock Text="{Binding StatusMessage}" 
+                                       Foreground="#5849E8" 
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" 
+                                       Margin="0,10,0,0"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>

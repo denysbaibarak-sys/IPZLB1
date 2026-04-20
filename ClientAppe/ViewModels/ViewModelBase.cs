@@ -13,7 +13,6 @@ namespace ClientAppe.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Цей метод каже інтерфейсу (View): "Гей, дані змінилися, онови екран!"
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -34,16 +34,25 @@
             <StackPanel Margin="60,40" MaxWidth="1000" HorizontalAlignment="Stretch">
                 <TextBlock Text="Мої замовлення" FontSize="32" FontWeight="Bold" Margin="0,0,0,30" Foreground="#1E293B"/>
 
-                <Border Background="#F1F5F9" CornerRadius="15" Padding="5" Margin="0,0,0,35">
-                    <UniformGrid Columns="2">
-                        <Button Content="Мої замовлення (4)" Classes="tabBtn active"/>
-                        <Button Content="Історія замовлень (0)" Classes="tabBtn"/>
-                    </UniformGrid>
-                </Border>
+<Border Background="#F1F5F9" CornerRadius="15" Padding="5" Margin="0,0,0,35">
+    <UniformGrid Columns="2">
+        <Button Content="{Binding ActiveOrdersText}" 
+                Classes="tabBtn" 
+                Classes.active="{Binding IsActiveTab}"
+                Command="{Binding SwitchTabCommand}"
+                CommandParameter="Active"/>
+        
+        <Button Content="{Binding HistoryOrdersText}" 
+                Classes="tabBtn" 
+                Classes.active="{Binding !IsActiveTab}"
+                Command="{Binding SwitchTabCommand}"
+                CommandParameter="History"/>
+    </UniformGrid>
+</Border>
 
                 <ItemsControl ItemsSource="{Binding Orders}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="m:OrderModel">
+        <DataTemplate x:DataType="m:OrderModel">
                             <Border Background="White" CornerRadius="20" Margin="0,0,0,22" Padding="28" BoxShadow="0 8 20 0 #08000000">
                                 <Grid RowDefinitions="Auto, Auto, 1, Auto">
                                     <Grid ColumnDefinitions="*, Auto">
@@ -57,7 +66,17 @@
                                         </Border>
                                     </Grid>
 
-                                    <TextBlock Grid.Row="1" Text="{Binding ItemsSummary}" Foreground="#64748B" FontSize="15" Margin="0,12,0,25"/>
+                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderedItems}" Margin="0,12,0,25">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,2">
+                                                    <TextBlock Text="{Binding Quantity}" Foreground="#64748B" FontWeight="Bold"/>
+                                                    <TextBlock Text="x" Foreground="#94A3B8"/>
+                                                    <TextBlock Text="{Binding Name}" Foreground="#64748B"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
 
                                     <Separator Grid.Row="2" Background="#F1F5F9"/>
 
@@ -66,7 +85,7 @@
                                             <PathIcon Data="{StaticResource calendar_regular}" Width="16" Foreground="#94A3B8"/>
                                             <TextBlock Text="{Binding OrderDate}" Foreground="#94A3B8" VerticalAlignment="Center" FontSize="14"/>
                                         </StackPanel>
-                                        <TextBlock Grid.Column="1" Text="{Binding TotalPrice, StringFormat='\{0\} грн'}"
+                                        <TextBlock Grid.Column="1" Text="{Binding TotalPrice, StringFormat='{}{0:0.00} грн'}"
                                                    FontSize="22" FontWeight="ExtraBold" Foreground="#1E293B"/>
                                     </Grid>
                                 </Grid>

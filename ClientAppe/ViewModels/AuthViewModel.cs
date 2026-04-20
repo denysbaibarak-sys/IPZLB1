@@ -6,11 +6,10 @@ namespace ClientAppe.ViewModels
 {
     public class AuthViewModel : ViewModelBase
     {
-        // Посилання на головну в'ю-модель для навігації
         private readonly MainViewModel _mainViewModel;
         private readonly ApiService _apiService = new ApiService();
 
-        private bool _isRegisterMode = false; // Зробимо вхід за замовчуванням
+        private bool _isRegisterMode = false;
         public bool IsRegisterMode
         {
             get => _isRegisterMode;
@@ -26,7 +25,6 @@ namespace ClientAppe.ViewModels
             }
         }
 
-        // Поля введення
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -39,35 +37,33 @@ namespace ClientAppe.ViewModels
             set { _errorMessage = value; OnPropertyChanged(); }
         }
 
-        // Динамічні тексти
         public string TitleText => IsRegisterMode ? "Реєстрація" : "Вхід";
         public string SubtitleText => IsRegisterMode ? "Створіть новий акаунт" : "Вітаємо знову!";
         public string ButtonText => IsRegisterMode ? "Зареєструватися" : "Увійти";
         public string SwitchHintText => IsRegisterMode ? "Вже маєте акаунт? " : "Ще не зареєстровані? ";
         public string SwitchButtonText => IsRegisterMode ? "Увійти" : "Створити акаунт";
 
-        // Команди
         public ICommand AuthActionCommand { get; }
         public ICommand ToggleModeCommand { get; }
 
-        // Тепер конструктор приймає MainViewModel
         public AuthViewModel(MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
 
-            ToggleModeCommand = new RelayCommand(o => IsRegisterMode = !IsRegisterMode);
+            ToggleModeCommand = new RelayCommand(o => {
+                IsRegisterMode = !IsRegisterMode;
+                ErrorMessage = ""; // Очищаємо помилку при перемиканні режиму
+            });
 
+            // Оновлена команда з реальною мережевою логікою
             AuthActionCommand = new RelayCommand(async o =>
             {
                 ErrorMessage = "";
 
-                // Імітуємо затримку завантаження
-                await Task.Delay(50);
-
                 if (IsRegisterMode)
                 {
-                    // Режим реєстрації
-                    if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+                    // РЕЄСТРАЦІЯ
+                    if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Username))
                     {
                         ErrorMessage = "Заповніть всі поля!";
                         return;
@@ -79,14 +75,41 @@ namespace ClientAppe.ViewModels
                         return;
                     }
 
-                    // Просто перекидаємо на вхід (імітація успішної реєстрації)
-                    IsRegisterMode = false;
+                    // Викликаємо сервер для збереження юзера
+                    bool success = await _apiService.RegisterAsync(Username, Email, Password);
+
+                    if (success)
+                    {
+                        // Якщо сервер повернув 200 OK, перемикаємо на форму входу
+                        IsRegisterMode = false;
+                        ErrorMessage = "Реєстрація успішна! Тепер увійдіть.";
+                    }
+                    else
+                    {
+                        ErrorMessage = "Помилка! Можливо, користувач вже існує.";
+                    }
                 }
                 else
                 {
-                    // Режим входу
-                    // ПРЯМИЙ ПЕРЕХІД: ігноруємо перевірки для викладача
-                    _mainViewModel.NavigateTo(new HomeViewModel(), false);
+                    // ВХІД
+                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+                    {
+                        ErrorMessage = "Введіть логін та пароль!";
+                        return;
+                    }
+
+                    // Викликаємо сервер для перевірки даних
+                    bool success = await _apiService.LoginAsync(Username, Password);
+
+                    if (success)
+                    {
+                        // Якщо сервер підтвердив пароль і повернув дані юзера, пускаємо в додаток!
+                        _mainViewModel.NavigateTo(new HomeViewModel(_mainViewModel), false);
+                    }
+                    else
+                    {
+                        ErrorMessage = "Невірний логін або пароль!";
+                    }
                 }
             });
         }

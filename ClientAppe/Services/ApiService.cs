@@ -12,39 +12,92 @@ namespace ClientAppe.Services
     {
         private readonly HttpClient _httpClient;
 
-        // Змінна для зберігання токену (знадобиться в 4-й лабі)
-        public static string AccessToken { get; set; }
+        // Змінна для зберігання глобального профілю користувача після логіну
+        public static UserModel CurrentUser { get; set; }
 
         public ApiService()
         {
             _httpClient = new HttpClient();
-
+            // Зверни увагу: переконайся, що порт 44333 правильний!
             _httpClient.BaseAddress = new Uri("https://localhost:44333/api/");
         }
+
+        // ==========================================
+        // РЕСТОРАНИ ТА МЕНЮ (Реальні дані)
+        // ==========================================
         public async Task<List<RestaurantModel>> GetRestaurantsAsync()
         {
-            await Task.Delay(300); // Імітуємо затримку інтернету
-            return MockDataStorage.GetRestaurants();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("restaurants");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    // Налаштування для ігнорування регістру букв у JSON (щоб "name" співпадало з "Name")
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+                    return JsonSerializer.Deserialize<List<RestaurantModel>>(jsonResponse, options) ?? new List<RestaurantModel>();
+                }
+                return new List<RestaurantModel>();
+            }
+            catch (Exception)
+            {
+                return new List<RestaurantModel>(); // Повертаємо пустий список при помилці
+            }
         }
+
+        // ==========================================
+        // ЗАМОВЛЕННЯ (Реальні дані)
+        // ==========================================
+        public async Task<bool> CreateOrderAsync(OrderModel order)
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Відправляємо замовлення на наш новий контролер
+                HttpResponseMessage response = await _httpClient.PostAsync("orders/create", content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<List<OrderModel>> GetOrdersAsync()
         {
-            await Task.Delay(300); // Імітація мережі
-            return MockDataStorage.GetOrders();
+            try
+            {
+                // Робимо справжній запит до сервера
+                HttpResponseMessage response = await _httpClient.GetAsync("orders");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    return JsonSerializer.Deserialize<List<OrderModel>>(jsonResponse, options) ?? new List<OrderModel>();
+                }
+                return new List<OrderModel>();
+            }
+            catch (Exception)
+            {
+                return new List<OrderModel>();
+            }
         }
-        public async Task<UserModel> GetProfileAsync()
-        {
-            await Task.Delay(200);
-            return MockDataStorage.GetUserProfile();
-        }
+
         // ==========================================
-        // РЕАЛЬНИЙ ЛОГІН
+        // АВТОРИЗАЦІЯ (Реальні дані)
         // ==========================================
         public async Task<bool> LoginAsync(string email, string password)
         {
             try
             {
                 var loginData = new { Login = email, Password = password };
-
                 string json = JsonSerializer.Serialize(loginData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -52,6 +105,11 @@ namespace ClientAppe.Services
 
                 if (response.IsSuccessStatusCode)
                 {
+                    // Сервер тепер повертає повного юзера, зберігаємо його глобально!
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    CurrentUser = JsonSerializer.Deserialize<UserModel>(jsonResponse, options);
+
                     return true;
                 }
                 return false;
@@ -62,9 +120,68 @@ namespace ClientAppe.Services
             }
         }
 
+        public async Task<UserModel> GetProfileAsync()
+        {
+            // Тепер повертаємо реального юзера, який залогінився, замість фейкового
+            await Task.Delay(100);
+            return CurrentUser ?? new UserModel();
+        }
+        public async Task<bool> UpdateProfileAsync(UserModel updatedUser)
+        {
+            try
+            {
+                // Серіалізуємо оновлені дані у JSON
+                string json = JsonSerializer.Serialize(updatedUser);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Відправляємо PUT-запит на сервер (адреса буде https://localhost:44333/api/users/update)
+                HttpResponseMessage response = await _httpClient.PutAsync("users/update", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Якщо сервер успішно оновив дані, синхронізуємо наш глобальний CurrentUser!
+                    if (CurrentUser != null)
+                    {
+                        CurrentUser.Login = updatedUser.Login;
+                        CurrentUser.Phone = updatedUser.Phone;
+
+                        // Ми не зберігаємо пароль локально в CurrentUser з міркувань безпеки, 
+                        // але на сервері він вже оновився.
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                return false; // Якщо сервер вимкнений або пропав інтернет
+            }
+        }
         internal async Task<bool> RegisterAsync(string? username, string? email, string? password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Створюємо об'єкт нового юзера
+                var newUser = new UserModel
+                {
+                    Login = username,
+                    Email = email,
+                    Password = password,
+                    RegistrationDate = DateTime.Now.ToString("dd.MM.yyyy")
+                };
+
+                string json = JsonSerializer.Serialize(newUser);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync("users/register", content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

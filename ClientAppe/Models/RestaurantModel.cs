@@ -8,8 +8,9 @@ namespace ClientAppe.Models
         public string Address { get; set; }
 
         // Додаємо ці поля для нашого нового дизайну
-        public string Rating { get; set; }
+        public double Rating { get; set; }
         public string DeliveryTime { get; set; }
+        public string Category { get; set; }
         public string Distance { get; set; }
         public string Description { get; set; }
 

@@ -83,7 +83,7 @@
                         <StackPanel Spacing="10">
                             <Grid ColumnDefinitions="*, Auto">
                                 <TextBlock Text="Страви" Foreground="#64748B" FontSize="13"/>
-                                <TextBlock Grid.Column="1" Text="275 грн" Foreground="#1A1A1A" FontWeight="Medium" FontSize="13"/>
+                                <TextBlock Grid.Column="1" Text="{Binding FinalTotalToPay}" Foreground="#1A1A1A" FontWeight="Medium" FontSize="13"/>
                             </Grid>
                             <Grid ColumnDefinitions="*, Auto">
                                 <TextBlock Text="Доставка" Foreground="#64748B" FontSize="13"/>
@@ -95,12 +95,12 @@
 
                         <Grid ColumnDefinitions="*, Auto">
                             <TextBlock Text="Разом" FontSize="18" FontWeight="Bold" Foreground="#1A1A1A"/>
-                            <TextBlock Grid.Column="1" Text="275 грн" FontSize="18" FontWeight="ExtraBold" Foreground="#5849E8"/>
+                            <TextBlock Grid.Column="1" Text="{Binding FinalTotalToPay}" FontSize="18" FontWeight="ExtraBold" Foreground="#5849E8"/>
                         </Grid>
 
-<Button Content="✔️ Оформити замовлення" 
-        Classes="orderBtn"
-        Command="{Binding $parent[Window].((vm:CartWindowViewModel)DataContext).ConfirmOrderCommand}"/>
+                        <Button Content="✔️ Оформити замовлення" 
+                                Classes="orderBtn"
+                                Command="{Binding ConfirmOrderCommand}"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -116,21 +116,21 @@
             <Setter Property="Padding" Value="12,8"/>
         </Style>
 
-<Style Selector="Button.orderBtn">
-        <Setter Property="Background" Value="#0F172A"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Height" Value="60"/>
-        <Setter Property="CornerRadius" Value="15"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-    </Style>
+        <Style Selector="Button.orderBtn">
+            <Setter Property="Background" Value="#0F172A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
         <Style Selector="Button.orderBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="#1E293B"/>
-        <Setter Property="Foreground" Value="White"/> 
-    </Style>
+            <Setter Property="Background" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="White"/> 
+        </Style>
         <Style Selector="Button.backBtn">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Width" Value="40"/>
