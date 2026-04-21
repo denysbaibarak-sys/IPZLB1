@@ -5,54 +5,113 @@
              x:DataType="vm:CheckoutViewModel">
 
     <DockPanel Background="#F7F9FC">
-        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
+        <Border DockPanel.Dock="Top" 
+                Background="White" 
+                Height="70"
+                BoxShadow="0 2 10 0 #10000000">
             <Grid Margin="30,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
-                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+                <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center">
+                    <Border Width="40"
+                            Height="40"
+                            Background="#5849E8" 
+                            CornerRadius="10"
+                            Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}"
+                                  Foreground="White" 
+                                  Width="20" 
+                                  Height="20"/>
                     </Border>
-                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                    <TextBlock Text="FoodHub"
+                               FontSize="22"
+                               FontWeight="ExtraBold"
+                               Foreground="#1A1A1A"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <ScrollViewer>
-            <Grid ColumnDefinitions="*, 300" Margin="30,40">
+            <Grid ColumnDefinitions="*, 300" 
+                  Margin="30,40">
                 
-                <StackPanel Grid.Column="0" Margin="0,0,25,0" Spacing="30">
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <Border CornerRadius="20" BoxShadow="0 4 8 0 #10000000">
+                <StackPanel Grid.Column="0" 
+                            Margin="0,0,25,0"
+                            Spacing="30">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="20">
+                        <Border CornerRadius="20" 
+                                BoxShadow="0 4 8 0 #10000000">
                             <Button Classes="backBtn" 
                                     Command="{Binding $parent[Window].((vm:CartWindowViewModel)DataContext).GoBackCommand}">
-                                <TextBlock Text="←" FontSize="20" FontWeight="Bold" Foreground="#5849E8" 
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="←"
+                                           FontSize="20" 
+                                           FontWeight="Bold" 
+                                           Foreground="#5849E8" 
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
                             </Button>
                         </Border>
-                        <TextBlock Text="Оформлення" FontSize="28" FontWeight="Bold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                        <TextBlock Text="Оформлення" 
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#1A1A1A"
+                                   VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <Border Background="White" CornerRadius="20" Padding="25" BoxShadow="0 4 15 0 #08000000">
+                    <Border Background="White" 
+                            CornerRadius="20"
+                            Padding="25"
+                            BoxShadow="0 4 15 0 #08000000">
                         <StackPanel Spacing="15">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="📍" FontSize="18" VerticalAlignment="Center"/>
-                                <TextBlock Text="Адреса доставки" FontSize="16" FontWeight="Bold" Foreground="#1A1A1A"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="10">
+                                <TextBlock Text="📍"
+                                           FontSize="18"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="Адреса доставки" 
+                                           FontSize="16" 
+                                           FontWeight="Bold"
+                                           Foreground="#1A1A1A"/>
                             </StackPanel>
 
-                            <TextBox Text="{Binding StreetAddress}" Watermark="вул. Хрещатик, 1" Classes="checkoutInput"/>
+                            <TextBox Text="{Binding StreetAddress}"
+                                     Watermark="вул. Хрещатик, 1"
+                                     Classes="checkoutInput"/>
 
                             <Grid ColumnDefinitions="*, *, *">
-                                <TextBox Grid.Column="0" Margin="0,0,10,0" Text="{Binding Entrance}" Watermark="Під'їзд" Classes="checkoutInput"/>
-                                <TextBox Grid.Column="1" Margin="0,0,10,0" Text="{Binding Floor}" Watermark="Поверх" Classes="checkoutInput"/>
-                                <TextBox Grid.Column="2" Text="{Binding Intercom}" Watermark="Кв." Classes="checkoutInput"/>
+                                <TextBox Grid.Column="0" 
+                                         Margin="0,0,10,0"
+                                         Text="{Binding Entrance}" 
+                                         Watermark="Під'їзд" 
+                                         Classes="checkoutInput"/>
+                                <TextBox Grid.Column="1" 
+                                         Margin="0,0,10,0"
+                                         Text="{Binding Floor}"
+                                         Watermark="Поверх"
+                                         Classes="checkoutInput"/>
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding Intercom}"
+                                         Watermark="Кв." 
+                                         Classes="checkoutInput"/>
                             </Grid>
                         </StackPanel>
                     </Border>
 
-                    <Border Background="White" CornerRadius="20" Padding="25" BoxShadow="0 4 15 0 #08000000">
+                    <Border Background="White"
+                            CornerRadius="20"
+                            Padding="25"
+                            BoxShadow="0 4 15 0 #08000000">
                         <StackPanel Spacing="15">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="💳" FontSize="18" VerticalAlignment="Center"/>
-                                <TextBlock Text="Спосіб оплати" FontSize="16" FontWeight="Bold" Foreground="#1A1A1A"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="10">
+                                <TextBlock Text="💳"
+                                           FontSize="18"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="Спосіб оплати"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Foreground="#1A1A1A"/>
                             </StackPanel>
                             
                             <ListBox ItemsSource="{Binding PaymentMethods}" 
@@ -62,11 +121,23 @@
                                      FocusAdorner="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="12">
+                                        <Border BorderBrush="#E2E8F0" 
+                                                BorderThickness="1"
+                                                CornerRadius="12"
+                                                Padding="12">
                                             <Grid ColumnDefinitions="Auto, Auto, *">
-                                                <RadioButton IsChecked="{Binding $parent[ListBoxItem].IsSelected}" VerticalAlignment="Center"/>
-                                                <TextBlock Grid.Column="1" Text="{Binding Icon}" FontSize="18" Margin="10,0" VerticalAlignment="Center"/>
-                                                <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="14" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                                                <RadioButton IsChecked="{Binding $parent[ListBoxItem].IsSelected}" 
+                                                             VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding Icon}" 
+                                                           FontSize="18"
+                                                           Margin="10,0"
+                                                           VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="{Binding Name}"
+                                                           FontSize="14" 
+                                                           Foreground="#1A1A1A"
+                                                           VerticalAlignment="Center"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
@@ -76,27 +147,55 @@
                     </Border>
                 </StackPanel>
 
-                <Border Grid.Column="1" Background="White" CornerRadius="25" Padding="20" VerticalAlignment="Top" BoxShadow="0 10 30 0 #08000000">
+                <Border Grid.Column="1" 
+                        Background="White" 
+                        CornerRadius="25"
+                        Padding="20" 
+                        VerticalAlignment="Top"
+                        BoxShadow="0 10 30 0 #08000000">
                     <StackPanel Spacing="20">
-                        <TextBlock Text="Підсумок" FontSize="20" FontWeight="Bold" Foreground="#1A1A1A"/>
+                        <TextBlock Text="Підсумок"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="#1A1A1A"/>
                         
                         <StackPanel Spacing="10">
                             <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Страви" Foreground="#64748B" FontSize="13"/>
-                                <TextBlock Grid.Column="1" Text="{Binding FinalTotalToPay}" Foreground="#1A1A1A" FontWeight="Medium" FontSize="13"/>
+                                <TextBlock Text="Страви"
+                                           Foreground="#64748B"
+                                           FontSize="13"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding FinalTotalToPay}" 
+                                           Foreground="#1A1A1A"
+                                           FontWeight="Medium" 
+                                           FontSize="13"/>
                             </Grid>
                             <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Доставка" Foreground="#64748B" FontSize="13"/>
-                                <TextBlock Grid.Column="1" Text="0 грн" Foreground="#10B981" FontWeight="Bold" FontSize="13"/>
+                                <TextBlock Text="Доставка" 
+                                           Foreground="#64748B"
+                                           FontSize="13"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="0 грн"
+                                           Foreground="#10B981"
+                                           FontWeight="Bold"
+                                           FontSize="13"/>
                             </Grid>
                         </StackPanel>
 
-                        <Separator Background="#F1F5F9" Height="1"/>
+                        <Separator Background="#F1F5F9" 
+                                   Height="1"/>
 
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="Разом" FontSize="18" FontWeight="Bold" Foreground="#1A1A1A"/>
-                            <TextBlock Grid.Column="1" Text="{Binding FinalTotalToPay}" FontSize="18" FontWeight="ExtraBold" Foreground="#5849E8"/>
-                        </Grid>
+                            <TextBlock Text="Разом"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Foreground="#1A1A1A"/>
+                            <TextBlock Grid.Column="1" 
+                                       Text="{Binding FinalTotalToPay}"
+                                       FontSize="18"
+                                       FontWeight="ExtraBold" 
+                                       Foreground="#5849E8"/>
+                                </Grid>
 
                         <Button Content="✔️ Оформити замовлення" 
                                 Classes="orderBtn"

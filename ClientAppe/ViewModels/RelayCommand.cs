@@ -14,10 +14,7 @@ namespace ClientAppe.ViewModels
             _canExecute = canExecute;
         }
 
-        // В Avalonia ми використовуємо стандартну подію без CommandManager
         public event EventHandler CanExecuteChanged;
-
-        // Метод для примусового оновлення стану кнопки (наприклад, зробити кнопку активною)
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);

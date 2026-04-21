@@ -5,39 +5,82 @@
              x:DataType="vm:HomeViewModel">
 
     <UserControl.Resources>
-        <LinearGradientBrush x:Key="RestaurantGrad" StartPoint="0%,0%" EndPoint="100%,100%">
-            <GradientStop Offset="0" Color="#FF8C42"/>
-            <GradientStop Offset="1" Color="#FF5733"/>
+        <LinearGradientBrush x:Key="RestaurantGrad" 
+                             StartPoint="0%,0%"
+                             EndPoint="100%,100%">
+            <GradientStop Offset="0"
+                          Color="#FF8C42"/>
+            <GradientStop Offset="1" 
+                          Color="#FF5733"/>
         </LinearGradientBrush>
-        <LinearGradientBrush x:Key="FastFoodGrad" StartPoint="0%,0%" EndPoint="100%,100%">
-            <GradientStop Offset="0" Color="#FFD93D"/>
-            <GradientStop Offset="1" Color="#FF8C42"/>
+        <LinearGradientBrush x:Key="FastFoodGrad"
+                             StartPoint="0%,0%"
+                             EndPoint="100%,100%">
+            <GradientStop Offset="0" 
+                          Color="#FFD93D"/>
+            <GradientStop Offset="1"
+                          Color="#FF8C42"/>
         </LinearGradientBrush>
-        <LinearGradientBrush x:Key="OtherGrad" StartPoint="0%,0%" EndPoint="100%,100%">
-            <GradientStop Offset="0" Color="#B197FC"/>
-            <GradientStop Offset="1" Color="#E599F7"/>
+        <LinearGradientBrush x:Key="OtherGrad"
+                             StartPoint="0%,0%" 
+                             EndPoint="100%,100%">
+            <GradientStop Offset="0"
+                          Color="#B197FC"/>
+            <GradientStop Offset="1"
+                          Color="#E599F7"/>
         </LinearGradientBrush>
     </UserControl.Resources>
 
     <DockPanel Background="#F7F9FC">
-        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
-            <Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
-                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+        <Border DockPanel.Dock="Top"
+                Background="White" 
+                Height="70"
+                BoxShadow="0 2 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto" 
+                  Margin="30,0">
+                <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center">
+                    <Border Width="40" 
+                            Height="40" 
+                            Background="#5849E8"
+                            CornerRadius="10"
+                            Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}"
+                                  Foreground="White"
+                                  Width="20" 
+                                  Height="20"/>
                     </Border>
-                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                    <TextBlock Text="FoodHub"
+                               FontSize="22"
+                               FontWeight="ExtraBold"
+                               Foreground="#1A1A1A"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
-                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
-                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
-                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="25" 
+                            VerticalAlignment="Center">
+                    <Button Content="Головна"
+                            Classes="navLink" 
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+                    <Button Content="Профіль"
+                            Classes="navLink" 
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+                    <Button Content="Замовлення"
+                            Classes="navLink" 
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
                     
-                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
+                    <Button Background="#F1F5F9"
+                            Padding="12,8"
+                            CornerRadius="10"
+                            Cursor="Hand"
                             Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="Кошик" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="8">
+                            <TextBlock Text="Кошик"
+                                       Foreground="#1A1A1A"
+                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -45,63 +88,122 @@
         </Border>
 
 <ScrollViewer>
-            <StackPanel Margin="40" Spacing="50">
-                <TextBlock Text="Оберіть категорію закладу" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#1E293B"/>
+            <StackPanel Margin="40"
+                        Spacing="50">
+                <TextBlock Text="Оберіть категорію закладу"
+                           FontSize="32"
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Center"
+                           Foreground="#1E293B"/>
 
-                <UniformGrid Columns="3" HorizontalAlignment="Center" MaxWidth="1100">
-<Border Classes="cardHolder" Background="{StaticResource RestaurantGrad}">
+                <UniformGrid Columns="3" 
+                             HorizontalAlignment="Center"
+                             MaxWidth="1100">
+                   <Border Classes="cardHolder"
+                           Background="{StaticResource RestaurantGrad}">
                         <Button Classes="categoryCard" 
                                 Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}" 
                                 CommandParameter="Ресторани">
                             <StackPanel Spacing="20">
-                                <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF">
-                                    <TextBlock Text="🍴" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/> 
+                                <Border Width="80" 
+                                        Height="80"
+                                        CornerRadius="40"
+                                        Background="#44FFFFFF">
+                                    <TextBlock Text="🍴"
+                                               FontSize="40"
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/> 
                                 </Border>
-                                <TextBlock Text="Ресторани" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Ресторани"
+                                           FontSize="22" 
+                                           FontWeight="Bold"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Border>
 
-                    <Border Classes="cardHolder" Background="{StaticResource FastFoodGrad}">
+                    <Border Classes="cardHolder"
+                            Background="{StaticResource FastFoodGrad}">
                         <Button Classes="categoryCard"
                                 Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}" 
                                 CommandParameter="Фаст-фуд">
                             <StackPanel Spacing="20">
-                                <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF">
-                                    <TextBlock Text="🍔" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="80" 
+                                        Height="80" 
+                                        CornerRadius="40"
+                                        Background="#44FFFFFF">
+                                    <TextBlock Text="🍔" 
+                                               FontSize="40"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="Фаст-фуд" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Фаст-фуд"
+                                           FontSize="22"
+                                           FontWeight="Bold"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Border>
-                    <Border Classes="cardHolder" Background="{StaticResource OtherGrad}">
+                    <Border Classes="cardHolder"
+                            Background="{StaticResource OtherGrad}">
                         <Button Classes="categoryCard"
                                 Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToRestaurantsCommand}" 
                                 CommandParameter="Інше">
                             <StackPanel Spacing="20">
-                                <Border Width="80" Height="80" CornerRadius="40" Background="#44FFFFFF">
-                                    <TextBlock Text="✨" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="80" 
+                                        Height="80"
+                                        CornerRadius="40" 
+                                        Background="#44FFFFFF">
+                                    <TextBlock Text="✨" 
+                                               FontSize="40"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="Інше" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Інше"
+                                           FontSize="22" 
+                                           FontWeight="Bold" 
+                                           Foreground="White" 
+                                           HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Border>
                 </UniformGrid>
 
-                <StackPanel MaxWidth="900" HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,15">
-                        <PathIcon Data="{StaticResource location_regular}" Foreground="#5849E8" Width="18"/>
-                        <TextBlock Text="Адреса доставки" FontWeight="SemiBold" Foreground="#4A5568"/>
+                <StackPanel MaxWidth="900"
+                            HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="10"
+                                Margin="0,0,0,15">
+                        <PathIcon Data="{StaticResource location_regular}" 
+                                  Foreground="#5849E8" 
+                                  Width="18"/>
+                        <TextBlock Text="Адреса доставки" 
+                                   FontWeight="SemiBold"
+                                   Foreground="#4A5568"/>
                     </StackPanel>
                     
-                    <Border Background="White" CornerRadius="30" Padding="40" BoxShadow="0 10 30 0 #10000000">
+                    <Border Background="White"
+                            CornerRadius="30"
+                            Padding="40"
+                            BoxShadow="0 10 30 0 #10000000">
                         <StackPanel Spacing="25">
                             <Grid>
-                                <TextBox Text="{Binding DeliveryAddress}" Watermark="м. Київ, вул. Хрещатик, 1"
-                                         Height="60" CornerRadius="15" Padding="50,0,15,0"
-                                         VerticalContentAlignment="Center" Background="#F8FAFC" 
-                                         BorderThickness="0" Foreground="#1A1A1A"/>
-                                <PathIcon Data="{StaticResource location_regular}" Foreground="#94A3B8" Width="18" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                                <TextBox Text="{Binding DeliveryAddress}"
+                                         Watermark="м. Київ, вул. Хрещатик, 1"
+                                         Height="60" 
+                                         CornerRadius="15" 
+                                         Padding="50,0,15,0"
+                                         VerticalContentAlignment="Center"
+                                         Background="#F8FAFC" 
+                                         BorderThickness="0"
+                                         Foreground="#1A1A1A"/>
+                                <PathIcon Data="{StaticResource location_regular}" 
+                                          Foreground="#94A3B8"
+                                          Width="18"
+                                          HorizontalAlignment="Left"
+                                          Margin="18,0,0,0"/>
                             </Grid>
 
                             <Button Content="Вибрати на карті" 

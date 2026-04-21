@@ -25,7 +25,6 @@ namespace ClientAppe.Services
                 Items.Add(food);
             }
 
-            // 🌟 ВИКЛИКАЄМО ПОДІЮ: Сповіщаємо, що додали страву
             CartUpdated?.Invoke();
         }
 
@@ -44,7 +43,6 @@ namespace ClientAppe.Services
                 }
             }
 
-            // 🌟 ВИКЛИКАЄМО ПОДІЮ: Сповіщаємо, що прибрали страву
             CartUpdated?.Invoke();
         }
 
@@ -52,7 +50,6 @@ namespace ClientAppe.Services
         {
             Items.Clear();
 
-            // 🌟 ВИКЛИКАЄМО ПОДІЮ: Сповіщаємо, що кошик повністю очистили
             CartUpdated?.Invoke();
         }
 

@@ -6,24 +6,55 @@
              x:DataType="vm:OrdersViewModel">
 
     <DockPanel Background="#F7F9FC">
-        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
-            <Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
-                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+        <Border DockPanel.Dock="Top"
+                Background="White"
+                Height="70" 
+                BoxShadow="0 2 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto" 
+                  Margin="30,0">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Border Width="40"
+                            Height="40"
+                            Background="#5849E8" 
+                            CornerRadius="10"
+                            Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}"
+                                  Foreground="White"
+                                  Width="20"
+                                  Height="20"/>
                     </Border>
-                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                    <TextBlock Text="FoodHub"
+                               FontSize="22" 
+                               FontWeight="ExtraBold"
+                               Foreground="#1A1A1A"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
-                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
-                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
-                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="25" 
+                            VerticalAlignment="Center">
+                    <Button Content="Головна" 
+                            Classes="navLink"
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+                    <Button Content="Профіль"
+                            Classes="navLink" 
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+                    <Button Content="Замовлення" 
+                            Classes="navLink" 
+                            Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
                     
-                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
+                    <Button Background="#F1F5F9"
+                            Padding="12,8"
+                            CornerRadius="10"
+                            Cursor="Hand"
                             Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="Кошик" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="8">
+                            <TextBlock Text="Кошик"
+                                       Foreground="#1A1A1A"
+                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -31,62 +62,107 @@
         </Border>
 
         <ScrollViewer>
-            <StackPanel Margin="60,40" MaxWidth="1000" HorizontalAlignment="Stretch">
-                <TextBlock Text="Мої замовлення" FontSize="32" FontWeight="Bold" Margin="0,0,0,30" Foreground="#1E293B"/>
+            <StackPanel Margin="60,40"
+                        MaxWidth="1000"
+                        HorizontalAlignment="Stretch">
+                <TextBlock Text="Мої замовлення"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Margin="0,0,0,30"
+                           Foreground="#1E293B"/>
 
-<Border Background="#F1F5F9" CornerRadius="15" Padding="5" Margin="0,0,0,35">
-    <UniformGrid Columns="2">
-        <Button Content="{Binding ActiveOrdersText}" 
-                Classes="tabBtn" 
-                Classes.active="{Binding IsActiveTab}"
-                Command="{Binding SwitchTabCommand}"
-                CommandParameter="Active"/>
+     <Border Background="#F1F5F9"
+              CornerRadius="15"
+              Padding="5" 
+              Margin="0,0,0,35">
+         <UniformGrid Columns="2">
+             <Button Content="{Binding ActiveOrdersText}" 
+                     Classes="tabBtn" 
+                     Classes.active="{Binding IsActiveTab}"
+                     Command="{Binding SwitchTabCommand}"
+                     CommandParameter="Active"/>
         
-        <Button Content="{Binding HistoryOrdersText}" 
-                Classes="tabBtn" 
-                Classes.active="{Binding !IsActiveTab}"
-                Command="{Binding SwitchTabCommand}"
-                CommandParameter="History"/>
-    </UniformGrid>
-</Border>
+             <Button Content="{Binding HistoryOrdersText}" 
+                     Classes="tabBtn" 
+                     Classes.active="{Binding !IsActiveTab}"
+                     Command="{Binding SwitchTabCommand}"
+                     CommandParameter="History"/>
+         </UniformGrid>
+      </Border>
 
                 <ItemsControl ItemsSource="{Binding Orders}">
                     <ItemsControl.ItemTemplate>
         <DataTemplate x:DataType="m:OrderModel">
-                            <Border Background="White" CornerRadius="20" Margin="0,0,0,22" Padding="28" BoxShadow="0 8 20 0 #08000000">
+                            <Border Background="White"
+                                    CornerRadius="20"
+                                    Margin="0,0,0,22"
+                                    Padding="28"
+                                    BoxShadow="0 8 20 0 #08000000">
                                 <Grid RowDefinitions="Auto, Auto, 1, Auto">
                                     <Grid ColumnDefinitions="*, Auto">
-                                        <TextBlock Text="{Binding RestaurantName}" FontSize="22" FontWeight="Bold" Foreground="#1E293B"/>
+                                        <TextBlock Text="{Binding RestaurantName}"
+                                                   FontSize="22"
+                                                   FontWeight="Bold" 
+                                                   Foreground="#1E293B"/>
 
-                                        <Border Grid.Column="1" Background="#FFF7ED" CornerRadius="12" Padding="14,7">
-                                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <Ellipse Width="8" Height="8" Fill="#F97316"/>
-                                                <TextBlock Text="{Binding Status}" Foreground="#F97316" FontSize="13" FontWeight="Bold"/>
+                                        <Border Grid.Column="1"
+                                                Background="#FFF7ED" 
+                                                CornerRadius="12" 
+                                                Padding="14,7">
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="8">
+                                                <Ellipse Width="8" 
+                                                         Height="8" 
+                                                         Fill="#F97316"/>
+                                                <TextBlock Text="{Binding Status}"
+                                                           Foreground="#F97316"
+                                                           FontSize="13" 
+                                                           FontWeight="Bold"/>
                                             </StackPanel>
                                         </Border>
                                     </Grid>
 
-                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding OrderedItems}" Margin="0,12,0,25">
+                                    <ItemsControl Grid.Row="1"
+                                                  ItemsSource="{Binding OrderedItems}"
+                                                  Margin="0,12,0,25">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,2">
-                                                    <TextBlock Text="{Binding Quantity}" Foreground="#64748B" FontWeight="Bold"/>
-                                                    <TextBlock Text="x" Foreground="#94A3B8"/>
-                                                    <TextBlock Text="{Binding Name}" Foreground="#64748B"/>
+                                                <StackPanel Orientation="Horizontal"
+                                                            Spacing="5"
+                                                            Margin="0,2">
+                                                    <TextBlock Text="{Binding Quantity}" 
+                                                               Foreground="#64748B"
+                                                               FontWeight="Bold"/>
+                                                    <TextBlock Text="x" 
+                                                               Foreground="#94A3B8"/>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               Foreground="#64748B"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
 
-                                    <Separator Grid.Row="2" Background="#F1F5F9"/>
+                                    <Separator Grid.Row="2" 
+                                               Background="#F1F5F9"/>
 
-                                    <Grid Grid.Row="3" ColumnDefinitions="*, Auto" Margin="0,18,0,0">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <PathIcon Data="{StaticResource calendar_regular}" Width="16" Foreground="#94A3B8"/>
-                                            <TextBlock Text="{Binding OrderDate}" Foreground="#94A3B8" VerticalAlignment="Center" FontSize="14"/>
+                                    <Grid Grid.Row="3"
+                                          ColumnDefinitions="*, Auto"
+                                          Margin="0,18,0,0">
+                                        <StackPanel Orientation="Horizontal" 
+                                                    Spacing="8">
+                                            <PathIcon Data="{StaticResource calendar_regular}"
+                                                      Width="16"
+                                                      Foreground="#94A3B8"/>
+                                            <TextBlock Text="{Binding OrderDate}"
+                                                       Foreground="#94A3B8" 
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14"/>
                                         </StackPanel>
-                                        <TextBlock Grid.Column="1" Text="{Binding TotalPrice, StringFormat='{}{0:0.00} грн'}"
-                                                   FontSize="22" FontWeight="ExtraBold" Foreground="#1E293B"/>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding TotalPrice, StringFormat='{}{0:0.00} грн'}"
+                                                   FontSize="22" 
+                                                   FontWeight="ExtraBold"
+                                                   Foreground="#1E293B"/>
                                     </Grid>
                                 </Grid>
                             </Border>

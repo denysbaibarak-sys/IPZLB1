@@ -5,21 +5,38 @@
              x:DataType="vm:CartViewModel">
 
     <DockPanel Background="#F7F9FC">
-        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
+        <Border DockPanel.Dock="Top"
+                Background="White" 
+                Height="70"
+                BoxShadow="0 2 10 0 #10000000">
             <Grid Margin="30,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
-                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Border Width="40"
+                            Height="40" 
+                            Background="#5849E8"
+                            CornerRadius="10" 
+                            Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}"
+                                  Foreground="White" 
+                                  Width="20"
+                                  Height="20"/>
                     </Border>
-                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                    <TextBlock Text="FoodHub"
+                               FontSize="22"
+                               FontWeight="ExtraBold" 
+                               Foreground="#1A1A1A"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <ScrollViewer>
-            <Grid ColumnDefinitions="*, 280" Margin="30,40">
+            <Grid ColumnDefinitions="*, 280"
+                  Margin="30,40">
                 
-                <StackPanel Grid.Column="0" Spacing="20">
+                <StackPanel Grid.Column="0" 
+                            Spacing="20">
                     <TextBlock Text="{Binding ItemsCountText}" 
                                FontSize="32" 
                                FontWeight="Bold" 
@@ -41,27 +58,62 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="White" CornerRadius="15" Padding="15" Margin="0,0,0,15" BoxShadow="0 5 15 0 #05000000">
+                                <Border Background="White"
+                                        CornerRadius="15"
+                                        Padding="15" 
+                                        Margin="0,0,0,15"
+                                        BoxShadow="0 5 15 0 #05000000">
                                     <Grid ColumnDefinitions="Auto, *, Auto">
-                                        <Border Grid.Column="0" Width="60" Height="60" Background="#F1F5F9" CornerRadius="10"/>
+                                        <Border Grid.Column="0" 
+                                                Width="60"
+                                                Height="60"
+                                                Background="#F1F5F9"
+                                                CornerRadius="10"/>
                                         
-                                        <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A"/>
-                                            <TextBlock Text="{Binding TotalItemPrice, StringFormat='{}{0:0.00} грн'}" Foreground="#5849E8" FontWeight="SemiBold"/>
+                                        <StackPanel Grid.Column="1"
+                                                    Margin="15,0"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="Bold" 
+                                                       FontSize="16" 
+                                                       Foreground="#1A1A1A"/>
+
+                                            <TextBlock Text="{Binding TotalItemPrice, StringFormat='{}{0:0.00} грн'}"
+                                                       Foreground="#5849E8"
+                                                       FontWeight="SemiBold"/>
                                         </StackPanel>
 
-                                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Button Content="-" Width="35" Height="35" CornerRadius="8" Background="#F1F5F9" Foreground="#1A1A1A" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        <StackPanel Grid.Column="2" 
+                                                    Orientation="Horizontal" 
+                                                    VerticalAlignment="Center">
+                                            <Button Content="-" 
+                                                    Width="35" 
+                                                    Height="35" 
+                                                    CornerRadius="8"
+                                                    Background="#F1F5F9" 
+                                                    Foreground="#1A1A1A" 
+                                                    HorizontalContentAlignment="Center" 
+                                                    VerticalContentAlignment="Center"
                                                     Command="{Binding $parent[UserControl].((vm:CartViewModel)DataContext).DecreaseQuantityCommand}" 
                                                     CommandParameter="{Binding}"/>
                                             
                                             <TextBlock Text="{Binding Quantity}" Foreground="#1A1A1A" Margin="15,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                                             
-                                            <Button Content="+" Width="35" Height="35" CornerRadius="8" Background="#F1F5F9" Foreground="#1A1A1A" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                            <Button Content="+"
+                                                    Width="35" 
+                                                    Height="35" 
+                                                    CornerRadius="8" 
+                                                    Background="#F1F5F9" 
+                                                    Foreground="#1A1A1A" 
+                                                    HorizontalContentAlignment="Center" 
+                                                    VerticalContentAlignment="Center"
                                                     Command="{Binding $parent[UserControl].((vm:CartViewModel)DataContext).IncreaseQuantityCommand}" 
                                                     CommandParameter="{Binding}"/>
                                             
-                                            <Button Content="✖" Background="Transparent" Foreground="#EF4444" Margin="15,0,0,0"
+                                            <Button Content="✖"
+                                                    Background="Transparent" 
+                                                    Foreground="#EF4444" 
+                                                    Margin="15,0,0,0"
                                                     Command="{Binding $parent[UserControl].((vm:CartViewModel)DataContext).RemoveItemCommand}" 
                                                     CommandParameter="{Binding}"/>
                                         </StackPanel>
@@ -82,20 +134,39 @@
                     <StackPanel Spacing="15">
                         
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="Вартість страв" Foreground="#718096" FontSize="14"/>
-                            <TextBlock Grid.Column="1" Text="{Binding ItemsCost, StringFormat='{}{0:0.00} грн'}" Foreground="#1A202C" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="Вартість страв"
+                                       Foreground="#718096" 
+                                       FontSize="14"/>
+                            <TextBlock Grid.Column="1" Text="{Binding ItemsCost, StringFormat='{}{0:0.00} грн'}" 
+                                       Foreground="#1A202C" 
+                                       FontWeight="Bold"
+                                       FontSize="14"/>
                         </Grid>
                         
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="Доставка" Foreground="#718096" FontSize="14"/>
-                            <TextBlock Grid.Column="1" Text="Безкоштовно" Foreground="#10B981" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="Доставка" 
+                                       Foreground="#718096" 
+                                       FontSize="14"/>
+                            <TextBlock Grid.Column="1" 
+                                       Text="Безкоштовно"
+                                       Foreground="#10B981" 
+                                       FontWeight="Bold" 
+                                       FontSize="14"/>
                         </Grid>
 
-                        <Separator Height="1" Background="#F1F5F9" Margin="0,5"/>
+                        <Separator Height="1" 
+                                   Background="#F1F5F9"
+                                   Margin="0,5"/>
 
                         <Grid ColumnDefinitions="*, Auto">
-                            <TextBlock Text="До сплати" Foreground="#1A1A1A" FontWeight="Bold" FontSize="18"/>
-                            <TextBlock Grid.Column="1" Text="{Binding TotalCost, StringFormat='{}{0:0.00} грн'}" Foreground="#5849E8" FontWeight="ExtraBold" FontSize="20"/>
+                            <TextBlock Text="До сплати" 
+                                       Foreground="#1A1A1A" 
+                                       FontWeight="Bold" 
+                                       FontSize="18"/>
+                            <TextBlock Grid.Column="1" Text="{Binding TotalCost, StringFormat='{}{0:0.00} грн'}" 
+                                       Foreground="#5849E8" 
+                                       FontWeight="ExtraBold"
+                                       FontSize="20"/>
                         </Grid>
 
                         <Button Content="Перейти до оплати" 

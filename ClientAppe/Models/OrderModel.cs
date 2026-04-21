@@ -11,7 +11,7 @@ namespace ClientAppe.Models
         public int RestaurantId { get; set; }
         public List<FoodModel> OrderedItems { get; set; }
         public string ItemsSummary { get; set; }
-        public double TotalPrice { get; set; } // Перейменували з TotalAmount на TotalPrice
+        public double TotalPrice { get; set; }
         public string Status { get; set; }
         public string DeliveryAddress { get; set; }
     }

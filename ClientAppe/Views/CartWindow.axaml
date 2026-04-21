@@ -5,8 +5,10 @@
         x:Class="ClientAppe.Views.CartWindow"
         x:DataType="vm:CartWindowViewModel"
         Title="FoodHub - Кошик" 
-        Width="900" Height="800"
-        MinWidth="900" MinHeight="600"
+        Width="900"
+        Height="800"
+        MinWidth="900" 
+        MinHeight="600"
         WindowStartupLocation="CenterScreen"
         Background="#F7F9FC">
 

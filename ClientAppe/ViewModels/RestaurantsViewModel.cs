@@ -13,7 +13,7 @@ namespace ClientAppe.ViewModels
         private readonly ApiService _apiService = new ApiService();
         private readonly MainViewModel _mainViewModel;
 
-        // Зберігаємо ПОВНИЙ список ресторанів
+        // Зберігаємо повний список ресторанів
         private List<RestaurantModel> _allRestaurants = new List<RestaurantModel>();
 
         private ObservableCollection<RestaurantModel> _restaurants;
@@ -86,28 +86,25 @@ namespace ClientAppe.ViewModels
                     _mainViewModel.NavigateToDetails(selected);
                 }
             });
-
-            // Не забуваємо завантажити дані!
             LoadData();
         }
 
-        // --- ГОЛОВНИЙ МЕТОД: Робить і фільтрацію, і сортування одночасно ---
+        // Робить і фільтрацію, і сортування одночасно
         private void ApplyFiltersAndSort()
         {
-            // Беремо всі ресторани як початкову точку
             var result = _allRestaurants.AsEnumerable();
 
-            // 1. ЗАСТОСОВУЄМО ФІЛЬТР (виправлено умову і додано ToLower)
+            // ЗАСТОСОВУЄМО ФІЛЬТР
             if (ActiveFilter != "Всі заклади")
             {
-                // Тепер ми шукаємо точний збіг по Категорії, ігноруючи регістр і зайві пробіли
+                // Тепер ми шукаємо точний збіг по Категорії
                 result = result.Where(r =>
                     r.Category != null &&
                     r.Category.Trim().ToLower() == ActiveFilter.Trim().ToLower()
                 );
             }
 
-            // 2. ЗАСТОСОВУЄМО СОРТУВАННЯ до вже відфільтрованого списку
+            // ЗАСТОСОВУЄМО СОРТУВАННЯ до вже відфільтрованого списку
             if (ActiveSort == "Rating")
             {
                 result = result.OrderByDescending(r => r.Rating);
@@ -117,7 +114,7 @@ namespace ClientAppe.ViewModels
                 result = result.OrderBy(r => r.DeliveryTime);
             }
 
-            // 3. ОНОВЛЮЄМО ЕКРАН
+            // ОНОВЛЮЄМО ЕКРАН
             var finalFilteredList = result.ToList();
             Restaurants = new ObservableCollection<RestaurantModel>(finalFilteredList);
             FoundCountText = $"Знайдено {Restaurants.Count} закладів";
@@ -131,7 +128,7 @@ namespace ClientAppe.ViewModels
                 if (data != null)
                 {
                     _allRestaurants = data;
-                    ApplyFiltersAndSort(); // Викликаємо при завантаженні, щоб застосувати стандартні налаштування
+                    ApplyFiltersAndSort();
                 }
             }
             catch (Exception ex)

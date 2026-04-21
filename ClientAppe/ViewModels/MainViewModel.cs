@@ -9,12 +9,12 @@ namespace ClientAppe.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        // 1. СЕРВІСИ ТА СТЕК НАВІГАЦІЇ
+        // СЕРВІСИ ТА СТЕК НАВІГАЦІЇ
         private readonly CartService _cartService = new CartService();
         private readonly Stack<ViewModelBase> _history = new Stack<ViewModelBase>();
         private CartWindow _openedCartWindow;
 
-        // 2. ВЛАСТИВОСТІ СТАНУ
+        // ВЛАСТИВОСТІ СТАНУ
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel
         {
@@ -29,7 +29,7 @@ namespace ClientAppe.ViewModels
             set { _isSuccessMessageVisible = value; OnPropertyChanged(); }
         }
 
-        // 3. КОМАНДИ
+        // КОМАНДИ
         public ICommand NavigateToHomeCommand { get; }
         public ICommand NavigateToAuthCommand { get; }
         public ICommand NavigateToRestaurantsCommand { get; }
@@ -41,14 +41,13 @@ namespace ClientAppe.ViewModels
 
         public MainViewModel()
         {
-            // Ініціалізація команд
             NavigateToHomeCommand = new RelayCommand(o => NavigateTo(new HomeViewModel(this)));
             NavigateToAuthCommand = new RelayCommand(o => NavigateTo(new AuthViewModel(this)));
 
-            // Для ресторанів передаємо посилання на MainViewModel (this), щоб працював перехід в деталі
+            // Для ресторанів передаємо посилання на MainViewModel, щоб працював перехід в деталі
             NavigateToRestaurantsCommand = new RelayCommand(o => NavigateTo(new RestaurantsViewModel(this)));
 
-            // Кошик тепер відкривається в окремому вікні
+            // Кошик відкривається в окремому вікні
             NavigateToCartCommand = new RelayCommand(o => OpenCartWindow());
 
             NavigateToProfileCommand = new RelayCommand(o => NavigateTo(new ProfileViewModel(this)));
@@ -66,7 +65,7 @@ namespace ClientAppe.ViewModels
             NavigateTo(new AuthViewModel(this), false);
         }
 
-        // 4. МЕТОДИ НАВІГАЦІЇ (ГОЛОВНЕ ВІКНО)
+        // МЕТОДИ НАВІГАЦІЇ (ГОЛОВНЕ ВІКНО)
         public void NavigateTo(ViewModelBase nextViewModel, bool saveToHistory = true)
         {
             if (nextViewModel == null) return;
@@ -98,7 +97,7 @@ namespace ClientAppe.ViewModels
             }
         }
 
-        // 5. ЛОГІКА МОДУЛЬНОГО ВІКНА КОШИКА
+        // ЛОГІКА МОДУЛЬНОГО ВІКНА КОШИКА
         public void OpenCartWindow()
         {
             // Перевірка, щоб не відкрити кошик двічі
@@ -108,7 +107,6 @@ namespace ClientAppe.ViewModels
                 return;
             }
 
-            // Створюємо VM для вікна кошика, передаємо сервіс та "callback" успіху
             var cartWindowVM = new CartWindowViewModel(_cartService, OnOrderSuccess);
 
             _openedCartWindow = new CartWindow
@@ -116,21 +114,18 @@ namespace ClientAppe.ViewModels
                 DataContext = cartWindowVM
             };
 
-            // Прив'язуємо закриття вікна до запиту з VM
             cartWindowVM.RequestClose = () => _openedCartWindow?.Close();
 
             _openedCartWindow.Closed += (s, e) => _openedCartWindow = null;
             _openedCartWindow.Show();
         }
 
-        // Метод, який викликається автоматично при успішному замовленні у вікні кошика
+        // Метод, який викликається при успішному замовленні у вікні кошика
         private void OnOrderSuccess()
         {
-            // Показуємо наш кастомний Overlay (MainWindow.axaml)
             IsSuccessMessageVisible = true;
 
             // Повертаємо головне вікно на головну сторінку
-            // ВИПРАВЛЕНО: Передаємо this
             NavigateTo(new HomeViewModel(this), false);
 
             // Очищуємо історію навігації головного вікна, щоб "Назад" не вела до оформлення

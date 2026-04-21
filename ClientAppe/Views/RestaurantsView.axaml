@@ -6,24 +6,53 @@
              x:DataType="vm:RestaurantsViewModel">
 
     <DockPanel Background="#F7F9FC">
-        <Border DockPanel.Dock="Top" Background="White" Height="70" BoxShadow="0 2 10 0 #10000000">
-            <Grid ColumnDefinitions="Auto, *, Auto" Margin="30,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="40" Height="40" Background="#5849E8" CornerRadius="10" Margin="0,0,10,0">
-                        <PathIcon Data="{StaticResource home_regular}" Foreground="White" Width="20" Height="20"/>
+        <Border DockPanel.Dock="Top" 
+                Background="White"
+                Height="70"
+                BoxShadow="0 2 10 0 #10000000">
+            <Grid ColumnDefinitions="Auto, *, Auto" 
+                  Margin="30,0">
+                <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center">
+                    <Border Width="40" 
+                            Height="40"
+                            Background="#5849E8"
+                            CornerRadius="10"
+                            Margin="0,0,10,0">
+                        <PathIcon Data="{StaticResource home_regular}" 
+                                  Foreground="White" 
+                                  Width="20"
+                                  Height="20"/>
                     </Border>
-                    <TextBlock Text="FoodHub" FontSize="22" FontWeight="ExtraBold" Foreground="#1A1A1A" VerticalAlignment="Center"/>
+                    <TextBlock Text="FoodHub" 
+                               FontSize="22" 
+                               FontWeight="ExtraBold"
+                               Foreground="#1A1A1A"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="25" VerticalAlignment="Center">
-                    <Button Content="Головна" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
-                    <Button Content="Профіль" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
-                    <Button Content="Замовлення" Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="25" 
+                            VerticalAlignment="Center">
+                    <Button Content="Головна"
+                            Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToHomeCommand}"/>
+                    <Button Content="Профіль"
+                            Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToProfileCommand}"/>
+                    <Button Content="Замовлення" 
+                            Classes="navLink" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToOrdersCommand}"/>
                     
-                    <Button Background="#F1F5F9" Padding="12,8" CornerRadius="10" Cursor="Hand"
+                    <Button Background="#F1F5F9"
+                            Padding="12,8"
+                            CornerRadius="10"
+                            Cursor="Hand"
                             Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateToCartCommand}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="Кошик" Foreground="#1A1A1A" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" 
+                                    Spacing="8">
+                            <TextBlock Text="Кошик" 
+                                       Foreground="#1A1A1A" 
+                                       FontWeight="SemiBold" 
+                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -32,44 +61,70 @@
 
         <ScrollViewer>
             <StackPanel Margin="40">
-<StackPanel Orientation="Horizontal" Spacing="20" Margin="0,0,0,10">
-    <Border CornerRadius="20" BoxShadow="0 4 8 0 #10000000">
+<StackPanel Orientation="Horizontal" 
+            Spacing="20"
+            Margin="0,0,0,10">
+    <Border CornerRadius="20" 
+            BoxShadow="0 4 8 0 #10000000">
         <Button Classes="backBtn" 
                 Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).GoBackCommand}">
-            <TextBlock Text="←" FontSize="20" FontWeight="Bold" Foreground="#5849E8" 
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="←"
+                       FontSize="20"
+                       FontWeight="Bold" 
+                       Foreground="#5849E8" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
         </Button>
     </Border>
-    <TextBlock Text="Заклади" FontSize="32" FontWeight="Bold" Foreground="#1E293B" VerticalAlignment="Center"/>
+    <TextBlock Text="Заклади" 
+               FontSize="32" 
+               FontWeight="Bold"
+               Foreground="#1E293B" 
+               VerticalAlignment="Center"/>
 </StackPanel>
 
-                <TextBlock Text="{Binding FoundCountText, FallbackValue='Знайдено 3 заклади'}" Foreground="#94A3B8" Margin="60,0,0,25" FontSize="16"/>
+                <TextBlock Text="{Binding FoundCountText, FallbackValue='Знайдено 3 заклади'}"
+                           Foreground="#94A3B8" 
+                           Margin="60,0,0,25" 
+                           FontSize="16"/>
 
-<StackPanel Orientation="Horizontal" Spacing="15" Margin="30,10,30,20">
-    <Button Content="Всі заклади" Classes="filterBtn"
+<StackPanel Orientation="Horizontal"
+            Spacing="15"
+            Margin="30,10,30,20">
+    <Button Content="Всі заклади"
+            Classes="filterBtn"
             Command="{Binding FilterCategoryCommand}" 
             CommandParameter="Всі заклади"/>
 
-    <Button Content="Ресторани" Classes="filterBtn"
+    <Button Content="Ресторани" 
+            Classes="filterBtn"
             Command="{Binding FilterCategoryCommand}" 
             CommandParameter="Ресторани"/>
 
-    <Button Content="Фаст-фуд" Classes="filterBtn"
+    <Button Content="Фаст-фуд"
+            Classes="filterBtn"
             Command="{Binding FilterCategoryCommand}" 
             CommandParameter="Фаст-фуд"/>
 
-    <Button Content="Інше" Classes="filterBtn"
+    <Button Content="Інше"
+            Classes="filterBtn"
             Command="{Binding FilterCategoryCommand}" 
             CommandParameter="Інше"/>
 </StackPanel>
 
-<StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,30">
+<StackPanel Orientation="Horizontal" 
+            Spacing="10" 
+            Margin="0,0,0,30">
             
-    <Button Content="За рейтингом" Classes="sortBtn"
-            Command="{Binding SortCommand}" CommandParameter="Rating"/>
+    <Button Content="За рейтингом"
+            Classes="sortBtn"
+            Command="{Binding SortCommand}"
+            CommandParameter="Rating"/>
             
-    <Button Content="Швидка доставка" Classes="sortBtn"
-            Command="{Binding SortCommand}" CommandParameter="Fastest"/>
+    <Button Content="Швидка доставка"
+            Classes="sortBtn"
+            Command="{Binding SortCommand}"
+            CommandParameter="Fastest"/>
 </StackPanel>
 
                 <ItemsControl ItemsSource="{Binding Restaurants}">
@@ -84,36 +139,81 @@
                             <Button Classes="restaurantCardBtn" 
                                     Command="{Binding $parent[UserControl].((vm:RestaurantsViewModel)DataContext).NavigateToDetailsCommand}"
                                     CommandParameter="{Binding}">
-                                <Border Width="350" CornerRadius="24" Background="White" BoxShadow="0 10 30 0 #08000000" Margin="0,0,10,10">
+                                <Border Width="350"
+                                        CornerRadius="24"
+                                        Background="White" 
+                                        BoxShadow="0 10 30 0 #08000000"
+                                        Margin="0,0,10,10">
                                     <StackPanel>
                                         <Panel Height="200">
-                                            <Border CornerRadius="24,24,0,0" Background="#F1F5F9">
-                                                <PathIcon Data="{StaticResource image_regular}" Width="40" Height="40" Foreground="#CBD5E0"/>
+                                            <Border CornerRadius="24,24,0,0" 
+                                                    Background="#F1F5F9">
+                                                <PathIcon Data="{StaticResource image_regular}" 
+                                                          Width="40" 
+                                                          Height="40"
+                                                          Foreground="#CBD5E0"/>
                                             </Border>
-                                            <Border Background="#FF6B00" CornerRadius="12" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15" Padding="12,6">
-                                                <TextBlock Text="Популярне" Foreground="White" FontSize="12" FontWeight="Bold"/>
+                                            <Border Background="#FF6B00"
+                                                    CornerRadius="12" 
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Margin="15" 
+                                                    Padding="12,6">
+                                                <TextBlock Text="Популярне"
+                                                           Foreground="White" 
+                                                           FontSize="12" 
+                                                           FontWeight="Bold"/>
                                             </Border>
                                         </Panel>
 
                                         <StackPanel Margin="24">
-                                            <TextBlock Text="{Binding Name}" FontSize="22" FontWeight="Bold" Foreground="#1E293B"/>
-                                              <TextBlock Text="{Binding Category}" Foreground="#718096" FontSize="14"/>
+                                            <TextBlock Text="{Binding Name}" 
+                                                       FontSize="22"
+                                                       FontWeight="Bold" 
+                                                       Foreground="#1E293B"/>
+                                              <TextBlock Text="{Binding Category}"
+                                                         Foreground="#718096"
+                                                         FontSize="14"/>
                                             
-                                            <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,12,0,0">
+                                            <StackPanel Orientation="Horizontal" 
+                                                        Spacing="20" 
+                                                        Margin="0,12,0,0">
                                                 
-                                                <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                                                    <TextBlock Text="★" Foreground="#FACC15" Width="16" Height="16"/>
-                                                    <TextBlock Text="{Binding Rating}" FontWeight="Bold" Foreground="#1E293B" VerticalAlignment="Center"/>
+                                                <StackPanel Orientation="Horizontal" 
+                                                            Spacing="6"
+                                                            VerticalAlignment="Center">
+                                                    
+                                                    <TextBlock Text="★"
+                                                               Foreground="#FACC15" 
+                                                               Width="16"
+                                                               Height="16"/>
+
+                                                    <TextBlock Text="{Binding Rating}"
+                                                               FontWeight="Bold"
+                                                               Foreground="#1E293B"
+                                                               VerticalAlignment="Center"/>
                                                 </StackPanel>
                                                 
-                                                <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                                                    <PathIcon Data="{StaticResource clock_regular}" Foreground="#94A3B8" Width="16" Height="16"/>
-                                                    <TextBlock Text="{Binding DeliveryTime}" Foreground="#64748B" VerticalAlignment="Center"/>
+                                                <StackPanel Orientation="Horizontal"
+                                                            Spacing="6"
+                                                            VerticalAlignment="Center">
+                                                    <PathIcon Data="{StaticResource clock_regular}" 
+                                                              Foreground="#94A3B8" 
+                                                              Width="16"
+                                                              Height="16"/>
+
+                                                    <TextBlock Text="{Binding DeliveryTime}" 
+                                                               Foreground="#64748B"
+                                                               VerticalAlignment="Center"/>
                                                 </StackPanel>
                                                 
                                             </StackPanel>
-                                            <Separator Background="#F1F5F9" Margin="0,20"/>
-                                            <TextBlock Text="Графік роботи: 08:00 - 22:00" FontSize="13" Foreground="#94A3B8"/>
+                                            <Separator Background="#F1F5F9" 
+                                                       Margin="0,20"/>
+
+                                            <TextBlock Text="Графік роботи: 08:00 - 22:00"
+                                                       FontSize="13" 
+                                                       Foreground="#94A3B8"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>

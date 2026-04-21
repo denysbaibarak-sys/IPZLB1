@@ -52,7 +52,7 @@ namespace ClientAppe.ViewModels
 
             ToggleModeCommand = new RelayCommand(o => {
                 IsRegisterMode = !IsRegisterMode;
-                ErrorMessage = ""; // Очищаємо помилку при перемиканні режиму
+                ErrorMessage = "";
             });
 
             // Оновлена команда з реальною мережевою логікою
@@ -80,7 +80,6 @@ namespace ClientAppe.ViewModels
 
                     if (success)
                     {
-                        // Якщо сервер повернув 200 OK, перемикаємо на форму входу
                         IsRegisterMode = false;
                         ErrorMessage = "Реєстрація успішна! Тепер увійдіть.";
                     }
@@ -103,7 +102,7 @@ namespace ClientAppe.ViewModels
 
                     if (success)
                     {
-                        // Якщо сервер підтвердив пароль і повернув дані юзера, пускаємо в додаток!
+                        // Якщо сервер підтвердив пароль і повернув дані юзера, пускаємо в додаток
                         _mainViewModel.NavigateTo(new HomeViewModel(_mainViewModel), false);
                     }
                     else

@@ -18,14 +18,14 @@ namespace ClientAppe.ViewModels
         private readonly CartService _cartService;
         private readonly CartWindowViewModel _windowViewModel;
 
-        // 1. ДЕТАЛІ ДОСТАВКИ (Прив'язані до UI)
+        // ДЕТАЛІ ДОСТАВКИ
         public string StreetAddress { get; set; } = "";
         public string Entrance { get; set; }
         public string Floor { get; set; }
         public string Intercom { get; set; }
         public string CourierComment { get; set; }
 
-        // 2. ОПЛАТА
+        // ОПЛАТА
         public ObservableCollection<PaymentMethod> PaymentMethods { get; set; }
 
         private PaymentMethod _selectedPaymentMethod;
@@ -35,7 +35,7 @@ namespace ClientAppe.ViewModels
             set { _selectedPaymentMethod = value; OnPropertyChanged(); }
         }
 
-        // 3. ПІДСУМОК ТА ЧАЙОВІ
+        // ПІДСУМОК ТА ЧАЙОВІ
         private string _selectedTip = "0%";
         public string SelectedTip
         {
@@ -44,11 +44,11 @@ namespace ClientAppe.ViewModels
             {
                 _selectedTip = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(FinalTotalToPay)); // Перераховуємо суму при зміні чайових
+                OnPropertyChanged(nameof(FinalTotalToPay));
             }
         }
 
-        // РЕАЛЬНИЙ ПІДРАХУНОК СУМИ
+        // ПІДРАХУНОК СУМИ
         public string FinalTotalToPay
         {
             get
@@ -56,7 +56,6 @@ namespace ClientAppe.ViewModels
                 decimal subtotal = _cartService.GetTotal();
                 decimal tipPercent = 0;
 
-                // Парсимо чайові (наприклад, з "5%" робимо 0.05)
                 if (decimal.TryParse(SelectedTip.Replace("%", ""), out decimal val))
                 {
                     tipPercent = val / 100;
@@ -70,7 +69,6 @@ namespace ClientAppe.ViewModels
         public ICommand SelectTipCommand { get; }
         public ICommand ConfirmOrderCommand { get; }
 
-        // ОНОВЛЕНИЙ КОНСТРУКТОР: приймає сервіс та вікно
         public CheckoutViewModel(CartService cartService, CartWindowViewModel windowViewModel)
         {
             _cartService = cartService;
@@ -98,7 +96,6 @@ namespace ClientAppe.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(StreetAddress))
                 {
-                    // Можна додати ErrorMessage, якщо вулиця порожня
                     return;
                 }
 
@@ -107,7 +104,6 @@ namespace ClientAppe.ViewModels
                 if (!string.IsNullOrEmpty(CourierComment))
                     fullAddress += $" (Коментар: {CourierComment})";
 
-                // Викликаємо метод відправки, який ми написали в CartWindowViewModel
                 _windowViewModel.ConfirmOrderCommand.Execute(fullAddress);
             });
         }

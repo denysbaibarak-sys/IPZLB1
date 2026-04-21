@@ -15,52 +15,110 @@
                 BoxShadow="0 10 30 0 #20000000">
 
 <StackPanel Margin="30">
-                <TextBlock Text="{Binding TitleText}" FontSize="28" FontWeight="Bold"
-                           HorizontalAlignment="Center" Foreground="#1A1A1A"/>
+                <TextBlock
+                Text="{Binding TitleText}" 
+                FontSize="28"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                Foreground="#1A1A1A"/>
                 
-                <TextBlock Text="{Binding SubtitleText}" FontSize="14" Foreground="#757575"
-                           HorizontalAlignment="Center" Margin="0,5,0,25"/>
+                <TextBlock Text="{Binding SubtitleText}"
+                           FontSize="14"
+                           Foreground="#757575"
+                           HorizontalAlignment="Center"
+                           Margin="0,5,0,25"/>
 
-                <TextBlock Text="Ім'я користувача" Margin="0,10,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
-                <TextBox Text="{Binding Username, Mode=TwoWay}" Watermark="username" Height="45"
-                         CornerRadius="8" VerticalContentAlignment="Center"/>
+                <TextBlock Text="Ім'я користувача" 
+                           Margin="0,10,0,5" 
+                           FontWeight="Medium"
+                           FontSize="13" 
+                           Foreground="#1A1A1A"/>
+
+                <TextBox Text="{Binding Username, Mode=TwoWay}"
+                         Watermark="username"
+                         Height="45"
+                         CornerRadius="8" 
+                         VerticalContentAlignment="Center"/>
 
                 <StackPanel IsVisible="{Binding IsRegisterMode}">
-                    <TextBlock Text="Електронна пошта" Margin="0,15,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
-                    <TextBox Text="{Binding Email, Mode=TwoWay}" Watermark="example@email.com" Height="45"
-                             CornerRadius="8" VerticalContentAlignment="Center"/>
+                    <TextBlock Text="Електронна пошта"
+                               Margin="0,15,0,5" 
+                               FontWeight="Medium"
+                               FontSize="13"
+                               Foreground="#1A1A1A"/>
+
+                    <TextBox Text="{Binding Email, Mode=TwoWay}"
+                             Watermark="example@email.com"
+                             Height="45"
+                             CornerRadius="8"
+                             VerticalContentAlignment="Center"/>
                 </StackPanel>
 
-                <TextBlock Text="Пароль" Margin="0,15,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
-                <TextBox Text="{Binding Password, Mode=TwoWay}" PasswordChar="●" Watermark="........" Height="45"
-                         CornerRadius="8" VerticalContentAlignment="Center"/>
+                <TextBlock Text="Пароль"
+                           Margin="0,15,0,5"
+                           FontWeight="Medium"
+                           FontSize="13"
+                           Foreground="#1A1A1A"/>
+
+                <TextBox Text="{Binding Password, Mode=TwoWay}"
+                         PasswordChar="*"
+                         Watermark="........"
+                         Height="45"
+                         CornerRadius="8" 
+                         VerticalContentAlignment="Center"/>
 
                 <StackPanel IsVisible="{Binding IsRegisterMode}">
-                    <TextBlock Text="Підтвердити пароль" Margin="0,15,0,5" FontWeight="Medium" FontSize="13" Foreground="#1A1A1A"/>
-                    <TextBox Text="{Binding ConfirmPassword, Mode=TwoWay}" PasswordChar="●" Watermark="........" Height="45"
-                             CornerRadius="8" VerticalContentAlignment="Center"/>
+                    <TextBlock Text="Підтвердити пароль" 
+                               Margin="0,15,0,5" 
+                               FontWeight="Medium"
+                               FontSize="13"
+                               Foreground="#1A1A1A"/>
+
+                    <TextBox Text="{Binding ConfirmPassword, Mode=TwoWay}" 
+                             PasswordChar="*" 
+                             Watermark="........" 
+                             Height="45"
+                             CornerRadius="8" 
+                             VerticalContentAlignment="Center"/>
                 </StackPanel>
 
-                <TextBlock Text="{Binding ErrorMessage}" Foreground="Black" FontSize="12"
-                           Margin="0,10,0,0" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="Black"
+                           FontSize="12"
+                           Margin="0,10,0,0"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"/>
 
                 <Button Command="{Binding AuthActionCommand}"
                         Content="{Binding ButtonText}"
                         Classes="loginBtn"
-                        Background="#5849E8" Foreground="White" Height="50"
-                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center" CornerRadius="8"
-                        Margin="0,25,0,15" FontWeight="Bold"/>
+                        Background="#5849E8" 
+                        Foreground="White" 
+                        Height="50"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        CornerRadius="8"
+                        Margin="0,25,0,15"
+                        FontWeight="Bold"/>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding SwitchHintText}" Foreground="#757575"/>
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center">
+
+                    <TextBlock Text="{Binding SwitchHintText}" 
+                               Foreground="#757575"/>
+
                     <Button Content="{Binding SwitchButtonText}" 
                             Command="{Binding ToggleModeCommand}"
                             Classes="linkBtn"
-                            Background="Transparent" Foreground="#5849E8" 
-                            Padding="0" BorderThickness="0" Cursor="Hand"/>
+                            Background="Transparent"
+                            Foreground="#5849E8" 
+                            Padding="0" 
+                            BorderThickness="0" 
+                            Cursor="Hand"/>
                 </StackPanel>
-            </StackPanel>        </Border>
+            </StackPanel>       
+    </Border>
     </Grid>
     <UserControl.Styles>
     <Style Selector="Button.loginBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">

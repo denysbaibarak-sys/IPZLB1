@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using ClientAppe.Models;
 using ClientAppe.Services;
-using System.Linq; // Обов'язково для Where та ToList()
+using System.Linq;
 using System.Collections.Generic;
 
 namespace ClientAppe.ViewModels
@@ -12,7 +12,7 @@ namespace ClientAppe.ViewModels
         private readonly MainViewModel _mainViewModel;
         private readonly CartService _cartService;
 
-        // Зберігаємо ПОВНЕ меню, щоб не втратити страви при фільтрації
+        // Зберігаємо повне меню, щоб не втратити страви при фільтрації
         private List<FoodModel> _allMenuItems = new List<FoodModel>();
 
         public RestaurantModel Restaurant { get; set; }
@@ -46,7 +46,7 @@ namespace ClientAppe.ViewModels
 
             GoBackCommand = new RelayCommand(o => _mainViewModel.GoBack());
 
-            // РЕАЛЬНА ФІЛЬТРАЦІЯ
+            // ФІЛЬТРАЦІЯ
             SelectCategoryCommand = new RelayCommand(category =>
             {
                 if (category is string catStr)
@@ -70,9 +70,9 @@ namespace ClientAppe.ViewModels
             {
                 if (item is FoodModel food)
                 {
-                    _cartService.RemoveFromCart(food); // Або метод, який у тебе зменшує кількість
+                    _cartService.RemoveFromCart(food);
 
-                    // СИНХРОНІЗАЦІЯ З ЕКРАНОМ: шукаємо цю страву в кошику і оновлюємо цифру
+                    // шукаємо цю страву в кошику і оновлюємо цифру
                     var itemInCart = _cartService.Items.FirstOrDefault(c => c.Name == food.Name);
                     food.Quantity = itemInCart != null ? itemInCart.Quantity : 0;
                 }
@@ -85,7 +85,7 @@ namespace ClientAppe.ViewModels
                     _cartService.CurrentRestaurantId = this.Restaurant.Id;
                     _cartService.AddToCart(food);
 
-                    // СИНХРОНІЗАЦІЯ З ЕКРАНОМ: після додавання оновлюємо цифру
+                    // після додавання оновлюємо цифру
                     var itemInCart = _cartService.Items.FirstOrDefault(c => c.Name == food.Name);
                     food.Quantity = itemInCart != null ? itemInCart.Quantity : 0;
                 }

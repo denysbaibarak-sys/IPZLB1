@@ -19,7 +19,6 @@ namespace ClientAppe.ViewModels
         public string ItemsCountText => $"Кошик ({CartItems.Count})";
 
 
-        // ДОДАНО: властивість для перевірки, чи порожній кошик (щоб ховати/показувати кнопку оплати)
         public bool IsCartEmpty => CartItems.Count == 0;
 
         public ICommand IncreaseQuantityCommand { get; }

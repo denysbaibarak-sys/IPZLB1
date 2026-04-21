@@ -17,7 +17,7 @@ namespace ClientAppe.ViewModels
             set { _user = value; OnPropertyChanged(); OnPropertyChanged(nameof(UserInitial)); }
         }
 
-        // --- ДОДАНО ДЛЯ РЕДАГУВАННЯ ---
+        // ДОДАНО ДЛЯ РЕДАГУВАННЯ
         private bool _isEditing;
         public bool IsEditing
         {
@@ -55,7 +55,7 @@ namespace ClientAppe.ViewModels
         public string UserInitial => !string.IsNullOrEmpty(User?.Login) ? User.Login[0].ToString().ToUpper() : "?";
 
         public ICommand EditProfileCommand { get; }
-        public ICommand CancelEditCommand { get; } // Додано
+        public ICommand CancelEditCommand { get; }
         public ICommand SaveProfileCommand { get; }
         public ICommand LogoutCommand { get; }
 
@@ -64,18 +64,18 @@ namespace ClientAppe.ViewModels
             _mainViewModel = mainViewModel;
             LoadProfile();
 
-            // 1. Відкриваємо вікно редагування
+            // Відкриваємо вікно редагування
             EditProfileCommand = new RelayCommand(o => {
                 EditLogin = User.Login;
-                EditPhone = User.Phone; // Переконайся, що в UserModel є поле Phone
+                EditPhone = User.Phone;
                 EditPassword = "";
                 IsEditing = true;
             });
 
-            // 2. Скасовуємо
+            // Скасовуємо
             CancelEditCommand = new RelayCommand(o => { IsEditing = false; });
 
-            // 3. Зберігаємо
+            // Зберігаємо
             SaveProfileCommand = new RelayCommand(async o => {
                 string phonePattern = @"^\+?[0-9]{10,12}$";
 
@@ -83,7 +83,7 @@ namespace ClientAppe.ViewModels
                 {
                     
                     System.Diagnostics.Debug.WriteLine("Неправильний формат номера!");
-                    return; // Зупиняємо збереження
+                    return;
                 }
                 var updatedUser = new UserModel
                 {

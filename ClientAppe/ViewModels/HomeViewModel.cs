@@ -5,7 +5,7 @@ namespace ClientAppe.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        // ДОДАНО: посилання на головну модель для навігації
+        // Посилання на головну модель для навігації
         private readonly MainViewModel _mainViewModel;
 
         private string _deliveryAddress;
@@ -25,7 +25,7 @@ namespace ClientAppe.ViewModels
         public ICommand SelectCategoryCommand { get; }
         public ICommand OpenMapCommand { get; }
 
-        // ВИПРАВЛЕНО: тепер конструктор приймає MainViewModel
+        // Конструктор приймає MainViewModel
         public HomeViewModel(MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
@@ -35,14 +35,14 @@ namespace ClientAppe.ViewModels
             {
                 StatusMessage = $"Переходимо до закладів: {category}...";
 
-                // РЕАЛЬНИЙ ПЕРЕХІД: Відкриваємо сторінку ресторанів!
+                // Відкриваємо сторінку ресторанів!
                 // Передаємо _mainViewModel далі, щоб з ресторанів можна було йти ще далі
                 _mainViewModel.NavigateTo(new RestaurantsViewModel(_mainViewModel), true);
             });
 
             OpenMapCommand = new RelayCommand(o =>
             {
-                StatusMessage = "Відкриття карти..."; // Можна залишити як заглушку
+                StatusMessage = "Відкриття карти...";
             });
         }
     }

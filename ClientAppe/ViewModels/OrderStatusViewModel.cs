@@ -8,7 +8,7 @@ namespace ClientAppe.ViewModels
     public class OrderStatusViewModel : ViewModelBase
     {
         private readonly ApiService _apiService = new ApiService();
-        private bool _isPolling = true; // Прапорець для зупинки опитування
+        private bool _isPolling = true;
 
         private string _currentStatus = "Очікування підтвердження...";
         public string CurrentStatus
@@ -32,15 +32,12 @@ namespace ClientAppe.ViewModels
 
                 try
                 {
-                    // Отримуємо всі замовлення з сервера
                     var allOrders = await _apiService.GetOrdersAsync();
-
-                    // Знаходимо останнє замовлення поточного користувача (спрощена логіка)
                     var myLastOrder = allOrders.LastOrDefault();
 
                     if (myLastOrder != null && myLastOrder.Status != CurrentStatus)
                     {
-                        // Якщо сервер повернув новий статус (наприклад, "Готується") — оновлюємо UI!
+                        // Якщо сервер повернув новий статус — оновлюємо UI
                         CurrentStatus = myLastOrder.Status;
 
                         // Якщо замовлення виконано, можна зупинити Polling

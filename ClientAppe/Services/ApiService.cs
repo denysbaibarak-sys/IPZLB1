@@ -29,7 +29,7 @@ namespace ClientAppe.Services
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
 
-                    // Налаштування для ігнорування регістру букв у JSON (щоб "name" співпадало з "Name")
+                    // Налаштування для ігнорування регістру букв у JSON
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
                     return JsonSerializer.Deserialize<List<RestaurantModel>>(jsonResponse, options) ?? new List<RestaurantModel>();
@@ -49,7 +49,7 @@ namespace ClientAppe.Services
                 string json = JsonSerializer.Serialize(order);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // Відправляємо замовлення на наш новий контролер
+                // Відправляємо замовлення на контролер
                 HttpResponseMessage response = await _httpClient.PostAsync("orders/create", content);
 
                 return response.IsSuccessStatusCode;
@@ -110,7 +110,7 @@ namespace ClientAppe.Services
 
         public async Task<UserModel> GetProfileAsync()
         {
-            // Тепер повертаємо реального юзера, який залогінився, замість фейкового
+            // повертаємоюзера
             await Task.Delay(100);
             return CurrentUser ?? new UserModel();
         }
@@ -118,16 +118,15 @@ namespace ClientAppe.Services
         {
             try
             {
-                // Серіалізуємо оновлені дані у JSON
                 string json = JsonSerializer.Serialize(updatedUser);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // Відправляємо PUT-запит на сервер (адреса буде https://localhost:44333/api/users/update)
+                // Відправляємо PUT-запит на сервер
                 HttpResponseMessage response = await _httpClient.PutAsync("users/update", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // Якщо сервер успішно оновив дані, синхронізуємо наш глобальний CurrentUser!
+                    // Якщо сервер успішно оновив дані, синхронізуємо наш глобальний CurrentUser
                     if (CurrentUser != null)
                     {
                         CurrentUser.Login = updatedUser.Login;
@@ -141,7 +140,7 @@ namespace ClientAppe.Services
             }
             catch (Exception)
             {
-                return false; // Якщо сервер вимкнений або пропав інтернет
+                return false;
             }
         }
         internal async Task<bool> RegisterAsync(string? username, string? email, string? password)

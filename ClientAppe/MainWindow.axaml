@@ -42,7 +42,7 @@
                                    TextWrapping="Wrap"/>
                     </StackPanel>
 
-                    <Button Content="Зрозуміло"
+                    <Button Content="Ok"
                             Classes="successBtn"
                             Command="{Binding CloseSuccessMessageCommand}"
                             Background="#5849E8"

@@ -32,7 +32,6 @@ namespace ClientAppe.ViewModels
             _cartService = cartService;
             _onSuccessCallback = onSuccess;
 
-            // Передаємо посилання на ЦЕ вікно в CartViewModel, щоб він міг викликати NavigateToCheckout
             CurrentView = new CartViewModel(_cartService, this);
 
             GoBackCommand = new RelayCommand(o => {
@@ -44,14 +43,14 @@ namespace ClientAppe.ViewModels
             ConfirmOrderCommand = new RelayCommand(async address => await ConfirmOrderAsync(address as string));
         }
 
-        // Метод для переходу на сторінку оплати (викликається з CartViewModel)
+        // Метод для переходу на сторінку оплати
         public void NavigateToCheckout()
         {
             _history.Push(CurrentView);
             CurrentView = new CheckoutViewModel(_cartService, this);
         }
 
-        // РЕАЛЬНА ВІДПРАВКА НА СЕРВЕР
+        // ВІДПРАВКА НА СЕРВЕР
         public async Task ConfirmOrderAsync(string deliveryAddress)
         {
             if (_cartService.Items.Count == 0) return;

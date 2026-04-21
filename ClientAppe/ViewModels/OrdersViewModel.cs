@@ -22,7 +22,7 @@ namespace ClientAppe.ViewModels
             set { _orders = value; OnPropertyChanged(); }
         }
 
-        // Прапорець, щоб знати, яка вкладка активна (для перемикання стилів)
+        // Прапорець, щоб знати, яка вкладка активна
         private bool _isActiveTab = true;
         public bool IsActiveTab
         {
@@ -30,7 +30,6 @@ namespace ClientAppe.ViewModels
             set { _isActiveTab = value; OnPropertyChanged(); }
         }
 
-        // Динамічні тексти для кнопок із реальними цифрами
         public string ActiveOrdersText => $"Мої замовлення ({_allOrders.Count(o => o.Status != "Доставлено")})";
         public string HistoryOrdersText => $"Історія ({_allOrders.Count(o => o.Status == "Доставлено")})";
 
@@ -60,13 +59,11 @@ namespace ClientAppe.ViewModels
         {
             if (IsActiveTab)
             {
-                // Показуємо все, крім "Доставлено"
                 var active = _allOrders.Where(o => o.Status != "Доставлено").ToList();
                 Orders = new ObservableCollection<OrderModel>(active);
             }
             else
             {
-                // Показуємо тільки "Доставлено"
                 var history = _allOrders.Where(o => o.Status == "Доставлено").ToList();
                 Orders = new ObservableCollection<OrderModel>(history);
             }

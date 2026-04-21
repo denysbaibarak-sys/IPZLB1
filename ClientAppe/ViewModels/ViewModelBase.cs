@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ClientAppe.ViewModels
 {
-    // Базовий клас для всіх ViewModel
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
