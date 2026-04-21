@@ -46,11 +46,11 @@ namespace ClientAppe.ViewModels
             set { _editPassword = value; OnPropertyChanged(); }
         }
 
-        private string _phoneError;
-        public string PhoneError
+        private string _errorMessage;
+        public string ErrorMessage
         {
-            get => _phoneError;
-            set { _phoneError = value; OnPropertyChanged(); }
+            get => _errorMessage;
+            set { _errorMessage = value; OnPropertyChanged(); }
         }
         public string UserInitial => !string.IsNullOrEmpty(User?.Login) ? User.Login[0].ToString().ToUpper() : "?";
 
@@ -77,14 +77,29 @@ namespace ClientAppe.ViewModels
 
             // Зберігаємо
             SaveProfileCommand = new RelayCommand(async o => {
-                string phonePattern = @"^\+?[0-9]{10,12}$";
+                // Очищуємо помилки
+                ErrorMessage = "";
 
+                // Валідація телефону
+                string phonePattern = @"^\+?[0-9]{10,12}$";
                 if (!Regex.IsMatch(EditPhone, phonePattern))
                 {
-                    
-                    System.Diagnostics.Debug.WriteLine("Неправильний формат номера!");
+                    ErrorMessage = "Некоректний номер (напр. +38095...)";
                     return;
                 }
+
+                // Валідація пароля (якщо він введений)
+                if (!string.IsNullOrWhiteSpace(EditPassword))
+                {
+                    string passPattern = @"^[a-zA-Z0-9]{8,16}$";
+                    if (!Regex.IsMatch(EditPassword, passPattern))
+                    {
+                        ErrorMessage = "Пароль: 8-16 символів (A-Z, 0-9)";
+                        return;
+                    }
+                }
+
+                // 3. Відправка на сервер
                 var updatedUser = new UserModel
                 {
                     Id = User.Id,
@@ -100,10 +115,10 @@ namespace ClientAppe.ViewModels
                     User.Login = EditLogin;
                     User.Phone = EditPhone;
                     OnPropertyChanged(nameof(User));
+                    OnPropertyChanged(nameof(UserInitial));
                     IsEditing = false;
                 }
             });
-
             LogoutCommand = new RelayCommand(o =>
             {
                 ApiService.CurrentUser = null;
