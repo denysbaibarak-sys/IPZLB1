@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using ClientAppe.Services;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ClientAppe.ViewModels
 {
@@ -55,7 +56,6 @@ namespace ClientAppe.ViewModels
                 ErrorMessage = "";
             });
 
-            // Оновлена команда з реальною мережевою логікою
             AuthActionCommand = new RelayCommand(async o =>
             {
                 ErrorMessage = "";
@@ -63,12 +63,30 @@ namespace ClientAppe.ViewModels
                 if (IsRegisterMode)
                 {
                     // РЕЄСТРАЦІЯ
+
+                    // Перевірка на порожні поля
                     if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Username))
                     {
                         ErrorMessage = "Заповніть всі поля!";
                         return;
                     }
 
+                    // Валідації
+                    string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                    if (!Regex.IsMatch(Email, emailPattern))
+                    {
+                        ErrorMessage = "Некоректний формат Email.";
+                        return;
+                    }
+
+                    string passPattern = @"^[a-zA-Z0-9]{8,16}$";
+                    if (!Regex.IsMatch(Password, passPattern))
+                    {
+                        ErrorMessage = "Пароль: 8-16 символів (тільки A-Z, 0-9).";
+                        return;
+                    }
+
+                    // Перевірка збігу паролів
                     if (Password != ConfirmPassword)
                     {
                         ErrorMessage = "Паролі не збігаються!";
@@ -81,11 +99,11 @@ namespace ClientAppe.ViewModels
                     if (success)
                     {
                         IsRegisterMode = false;
-                        ErrorMessage = "Реєстрація успішна! Тепер увійдіть.";
+                        ErrorMessage = "Реєстрація успішна!";
                     }
                     else
                     {
-                        ErrorMessage = "Помилка! Можливо, користувач вже існує.";
+                        ErrorMessage = "Помилка! Можливо, користувач з таким логіном вже існує.";
                     }
                 }
                 else
@@ -102,7 +120,6 @@ namespace ClientAppe.ViewModels
 
                     if (success)
                     {
-                        // Якщо сервер підтвердив пароль і повернув дані юзера, пускаємо в додаток
                         _mainViewModel.NavigateTo(new HomeViewModel(_mainViewModel), false);
                     }
                     else

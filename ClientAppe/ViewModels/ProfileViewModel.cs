@@ -84,7 +84,7 @@ namespace ClientAppe.ViewModels
                 string phonePattern = @"^\+?[0-9]{10,12}$";
                 if (!Regex.IsMatch(EditPhone, phonePattern))
                 {
-                    ErrorMessage = "Некоректний номер (напр. +38095...)";
+                    ErrorMessage = "Некоректний номер (напр. +380954123456)";
                     return;
                 }
 
