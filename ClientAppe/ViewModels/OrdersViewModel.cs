@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.Generic;
 using ClientAppe.Models;
@@ -30,6 +32,8 @@ namespace ClientAppe.ViewModels
             set { _isActiveTab = value; OnPropertyChanged(); }
         }
 
+        private bool _isPolling = true;
+
         public string ActiveOrdersText => $"Мої замовлення ({_allOrders.Count(o => o.Status != "Доставлено")})";
         public string HistoryOrdersText => $"Історія ({_allOrders.Count(o => o.Status == "Доставлено")})";
 
@@ -47,12 +51,61 @@ namespace ClientAppe.ViewModels
             });
 
             LoadOrders();
+            StartPollingAsync();
         }
+
+        private DateTime _lastUpdateTime;
 
         private async void LoadOrders()
         {
+            // При першому відкритті вантажимо все
             _allOrders = await _apiService.GetOrdersAsync();
-            FilterOrders(); // Відразу фільтруємо при завантаженні
+            _lastUpdateTime = DateTime.Now; // Фіксуємо час першого завантаження
+            FilterOrders();
+        }
+
+        private async void StartPollingAsync()
+        {
+            while (_isPolling)
+            {
+                await Task.Delay(5000);
+
+                try
+                {
+                    string timeString = _lastUpdateTime.ToString("yyyy-MM-ddTHH:mm:ss");
+
+                    var newOrders = await _apiService.PollOrdersAsync(timeString);
+
+                    if (newOrders != null && newOrders.Any())
+                    {
+                        _lastUpdateTime = DateTime.Now;
+
+                        foreach (var order in newOrders)
+                        {
+                            var existingOrder = _allOrders.FirstOrDefault(o => o.OrderId == order.OrderId);
+                            if (existingOrder != null)
+                            {
+                                existingOrder.Status = order.Status;
+                            }
+                            else
+                            {
+                                _allOrders.Add(order);
+                            }
+                        }
+
+                        FilterOrders();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Polling error: " + ex.Message);
+                }
+            }
+        }
+
+        public void StopPolling()
+        {
+            _isPolling = false;
         }
 
         private void FilterOrders()

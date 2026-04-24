@@ -79,7 +79,35 @@ namespace ClientAppe.Services
                 return new List<OrderModel>();
             }
         }
+        public async Task<List<OrderModel>> PollOrdersAsync(string lastUpdate)
+        {
+            try
+            {
+                // Відправляємо дату останнього оновлення на наш новий маршрут
+                HttpResponseMessage response = await _httpClient.GetAsync($"orders/poll?lastUpdate={lastUpdate}");
 
+                // Якщо сервер відповів 204 NoContent - нових замовлень немає
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return new List<OrderModel>();
+                }
+
+                // Якщо сервер знайшов оновлення і відповів 200 OK
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    return JsonSerializer.Deserialize<List<OrderModel>>(jsonResponse, options) ?? new List<OrderModel>();
+                }
+
+                return new List<OrderModel>();
+            }
+            catch (Exception)
+            {
+                // Якщо сервер вимкнено або зник інтернет
+                return new List<OrderModel>();
+            }
+        }
         public async Task<bool> LoginAsync(string email, string password)
         {
             try
